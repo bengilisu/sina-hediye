@@ -1,0 +1,7262 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Sina</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #080a12;
+    font-family: 'Press Start 2P', monospace;
+    color: #fff;
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+.phone {
+    width: 360px;
+    height: 720px;
+    background: #05060b;
+    border: 9px solid #252638;
+    border-radius: 42px;
+    position: relative;
+    overflow: hidden;
+
+    box-shadow:
+        0 0 0 2px #10111a,
+        0 30px 80px rgba(0,0,0,.8);
+}
+
+
+/* =========================
+   WALLPAPER
+========================= */
+
+.wallpaper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            #10142d 0%,
+            #151735 42%,
+            #211b38 70%,
+            #30213c 100%
+        );
+}
+
+
+/* =========================
+   STARS
+========================= */
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #f1e6c8;
+    box-shadow: 0 0 4px rgba(241,230,200,.5);
+}
+
+.star.s1 { left: 12%; top: 18%; }
+.star.s2 { left: 27%; top: 30%; width: 2px; height: 2px; }
+.star.s3 { left: 73%; top: 17%; }
+.star.s4 { left: 84%; top: 34%; width: 2px; height: 2px; }
+.star.s5 { left: 54%; top: 10%; width: 2px; height: 2px; }
+.star.s6 { left: 9%; top: 48%; width: 2px; height: 2px; }
+.star.s7 { left: 92%; top: 51%; }
+.star.s8 { left: 42%; top: 40%; width: 2px; height: 2px; }
+.star.s9 { left: 61%; top: 26%; width: 2px; height: 2px; }
+.star.s10 { left: 34%; top: 13%; }
+.star.s11 { left: 89%; top: 21%; width: 2px; height: 2px; }
+
+
+/* =========================
+   MOON
+========================= */
+
+.moon {
+    position: absolute;
+    right: 38px;
+    top: 90px;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+    background: #f4dfb8;
+
+    box-shadow:
+        0 0 0 5px rgba(244,223,184,.04),
+        0 0 25px rgba(244,223,184,.12);
+}
+
+.moon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    background: #171936;
+
+    left: 18px;
+    top: -8px;
+}
+
+
+/* =========================
+   CITY
+========================= */
+
+.city {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 120px;
+
+    background: #101224;
+}
+
+.building {
+    position: absolute;
+    bottom: 0;
+    background: #0a0c18;
+}
+
+.b1 {
+    left: 5%;
+    width: 42px;
+    height: 65px;
+}
+
+.b2 {
+    left: 18%;
+    width: 55px;
+    height: 95px;
+}
+
+.b3 {
+    left: 34%;
+    width: 35px;
+    height: 50px;
+}
+
+.b4 {
+    left: 47%;
+    width: 65px;
+    height: 80px;
+}
+
+.b5 {
+    left: 66%;
+    width: 42px;
+    height: 105px;
+}
+
+.b6 {
+    left: 82%;
+    width: 55px;
+    height: 62px;
+}
+
+
+/* =========================
+   WINDOWS
+========================= */
+
+.window {
+    position: absolute;
+
+    width: 4px;
+    height: 5px;
+
+    background: #e7c878;
+    opacity: .65;
+}
+
+.w1 { left: 22%; bottom: 80px; }
+.w2 { left: 25%; bottom: 60px; }
+.w3 { left: 51%; bottom: 75px; }
+.w4 { left: 70%; bottom: 95px; }
+.w5 { left: 73%; bottom: 70px; }
+.w6 { left: 87%; bottom: 48px; }
+
+
+/* =========================
+   DOG PLACEHOLDER
+========================= */
+
+.pixel-dog {
+    position: absolute;
+
+    bottom: 103px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-size: 36px;
+
+    filter:
+        drop-shadow(3px 3px 0 #111426);
+}
+
+
+/* =========================
+   STATUS BAR
+========================= */
+
+.status {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 34px;
+
+    padding: 0 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 7px;
+
+    z-index: 30;
+    color: #fff;
+}
+
+.status-icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 18px;
+}
+
+/* Four-bar cellular signal */
+.cellular {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5px;
+    height: 11px;
+}
+
+.cellular i {
+    display: block;
+    width: 2px;
+    background: #ffffff;
+    border-radius: 1px;
+    opacity: .95;
+}
+
+.cellular i:nth-child(1) { height: 3px; }
+.cellular i:nth-child(2) { height: 5px; }
+.cellular i:nth-child(3) { height: 8px; }
+.cellular i:nth-child(4) { height: 11px; }
+
+/* Pixel Wi-Fi */
+.wifi {
+    position: relative;
+    width: 13px;
+    height: 11px;
+}
+
+.wifi i {
+    position: absolute;
+    display: block;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 1px;
+}
+
+.wifi i:nth-child(1) {
+    width: 13px;
+    top: 0;
+    left: 0;
+}
+
+.wifi i:nth-child(2) {
+    width: 8px;
+    top: 4px;
+    left: 2.5px;
+}
+
+.wifi i:nth-child(3) {
+    width: 3px;
+    top: 8px;
+    left: 5px;
+}
+
+/* Pixel battery */
+.battery {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.battery-body {
+    display: block;
+    width: 17px;
+    height: 9px;
+    border: 1px solid #ffffff;
+    border-radius: 2px;
+    position: relative;
+}
+
+.battery-body::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 10px;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 1px;
+}
+
+.battery-tip {
+    display: block;
+    width: 2px;
+    height: 4px;
+    background: #ffffff;
+    border-radius: 0 1px 1px 0;
+}
+
+
+
+/* =========================
+   NOTCH
+========================= */
+
+.notch {
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 120px;
+    height: 21px;
+
+    background: #080910;
+
+    border-radius:
+        0 0 15px 15px;
+
+    z-index: 40;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.home {
+    position: absolute;
+
+    inset: 0;
+
+    padding:
+        55px
+        18px
+        110px;
+
+    z-index: 10;
+}
+
+
+/* =========================
+   WIDGETS
+========================= */
+
+.widgets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.widget {
+    background:
+        rgba(18,20,42,.82);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    border-radius: 16px;
+
+    padding: 12px;
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.04),
+        0 8px 20px rgba(0,0,0,.15);
+
+    backdrop-filter: blur(8px);
+}
+
+.widget-title {
+    color: #aaa6d9;
+    font-size: 6px;
+    margin-bottom: 9px;
+}
+
+
+/* =========================
+   CALENDAR
+========================= */
+
+.calendar-day {
+    font-size: 25px;
+    color: #f5dfb8;
+    margin-bottom: 6px;
+}
+
+.calendar-text {
+    font-size: 6px;
+    color: #d7d4e9;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   MUSIC WIDGET
+========================= */
+
+.music {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.album {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 7px;
+
+    background: #6f5aa8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+}
+
+.song {
+    font-size: 6px;
+    line-height: 1.6;
+}
+
+.music-btn {
+    width: 100%;
+
+    margin-top: 9px;
+
+    border:
+        1px solid #6f5aa8;
+
+    background: #282442;
+
+    color: #eee5cf;
+
+    border-radius: 7px;
+
+    padding: 7px;
+
+    font-family: inherit;
+    font-size: 6px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   APPS
+========================= */
+
+.apps {
+    margin-top: 32px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 24px 12px;
+}
+
+.app {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 7px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   ICONS
+========================= */
+
+.icon {
+    width: 53px;
+    height: 53px;
+
+    border-radius: 14px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+
+    border:
+        1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        0 6px 0 rgba(0,0,0,.25),
+        inset 0 1px rgba(255,255,255,.15);
+
+    transition: .1s;
+}
+
+.settings-icon img,
+.safari-icon img,
+.gallery img,
+.camera-icon img,
+.notes img,
+.spanish-icon img,
+.messages-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    image-rendering: pixelated;
+}
+
+.static-app {
+    cursor: default;
+}
+
+.static-app .icon:active {
+    transform: none;
+}
+
+.icon:active {
+    transform: translateY(4px);
+
+    box-shadow:
+        0 2px rgba(0,0,0,.25);
+}
+
+
+/* =========================
+   GALLERY ICON
+========================= */
+
+.gallery {
+    background: #80649e;
+    overflow: hidden;
+}
+
+.gallery img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    image-rendering: pixelated;
+
+    object-fit: cover;
+}
+
+.notes {
+    background: #9b7358;
+    overflow: hidden;
+    padding: 0;
+}
+
+.dogicon {
+    background: #8b765f;
+}
+
+
+.app-name {
+    font-size: 6px;
+    color: #fff;
+    text-align: center;
+}
+
+
+/* =========================
+   IPHONE DOCK
+========================= */
+
+.dock {
+    position: absolute;
+
+    bottom: 17px;
+
+    left: 14px;
+    right: 14px;
+
+    height: 78px;
+
+    display: flex;
+
+    justify-content:
+        space-evenly;
+
+    align-items: center;
+
+    background:
+        rgba(18,20,40,.72);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    border-radius: 22px;
+
+    backdrop-filter:
+        blur(12px);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.06),
+        0 8px 25px rgba(0,0,0,.25);
+
+    z-index: 15;
+}
+
+.dock-app {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   PHONE DOCK ICON
+========================= */
+
+.phone-icon {
+    width: 53px;
+    height: 53px;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 0 rgba(45,151,176,.25),
+        inset 0 1px rgba(255,255,255,.55);
+
+    transition: .1s;
+}
+
+.phone-icon:active {
+    transform: translateY(4px);
+
+    box-shadow:
+        0 2px rgba(45,151,176,.25);
+}
+
+.phone-icon img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    image-rendering: pixelated;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   MESAJLAR ICON
+========================= */
+
+.messages-icon {
+    width: 53px;
+    height: 53px;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 0 #176b31,
+        inset 0 1px rgba(255,255,255,.2);
+
+    transition: .1s;
+}
+
+.messages-icon:active {
+    transform: translateY(4px);
+
+    box-shadow:
+        0 2px #176b31;
+}
+
+.messages-icon img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    image-rendering: pixelated;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   SPOTIFY DOCK
+========================= */
+
+.spotify-icon {
+    width: 53px;
+    height: 53px;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 0 #176b31,
+        inset 0 1px rgba(255,255,255,.2);
+
+    transition: .1s;
+}
+
+.spotify-icon:active {
+    transform: translateY(4px);
+
+    box-shadow:
+        0 2px #176b31;
+}
+
+.spotify-icon img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    image-rendering: pixelated;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   APP WINDOW
+========================= */
+
+.app-window {
+    position: absolute;
+
+    inset: 0;
+
+    background: #111326;
+
+    z-index: 50;
+
+    display: none;
+
+    flex-direction: column;
+
+    padding:
+        45px
+        16px
+        18px;
+}
+
+.app-header {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    padding-bottom: 13px;
+
+    border-bottom:
+        1px solid #292c48;
+
+    margin-bottom: 15px;
+}
+
+.app-title {
+    font-size: 8px;
+    color: #eee5cf;
+}
+
+.close {
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+
+    border: 0;
+
+    background: #343750;
+
+    color: #fff;
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    cursor: pointer;
+}
+
+.content {
+    flex: 1;
+
+    overflow-y: auto;
+
+    font-size: 7px;
+
+    line-height: 1.8;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
+.message {
+    max-width: 82%;
+
+    padding: 10px;
+
+    margin-bottom: 10px;
+
+    border-radius: 12px;
+
+    background: #242842;
+
+    border:
+        1px solid #343750;
+}
+
+.message.me {
+    margin-left: auto;
+    background: #5b4c87;
+}
+
+
+
+.gallery-special-album{position:relative;z-index:3;pointer-events:auto;cursor:pointer;}
+.gallery-special-album *{pointer-events:none;}
+
+/* =========================
+   GALLERY NAVIGATION
+========================= */
+
+.gallery-tabs {
+    display: flex;
+
+    gap: 18px;
+
+    margin-bottom: 15px;
+
+    padding-bottom: 10px;
+
+    border-bottom:
+        1px solid #292c48;
+}
+
+.gallery-tab {
+    font-family: inherit;
+
+    font-size: 6px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #666a88;
+
+    cursor: pointer;
+}
+
+.gallery-tab.active {
+    color: #eee5cf;
+}
+
+
+/* =========================
+   ALL PHOTOS
+========================= */
+
+.gallery-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 14px 10px;
+
+    padding-bottom: 25px;
+}
+
+.gallery-item {
+    cursor: pointer;
+
+    transition:
+        transform .12s,
+        opacity .12s;
+}
+
+.gallery-item:active {
+    transform: scale(.96);
+    opacity: .8;
+}
+
+.gallery-image {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #292c47;
+
+    border:
+        1px solid #3b3e59;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 0 #0a0b12;
+}
+
+.gallery-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    image-rendering: pixelated;
+}
+
+
+/* =========================
+   ALBUMS
+========================= */
+
+.album-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 14px 10px;
+
+    padding-bottom: 25px;
+}
+
+.album-card {
+    cursor: pointer;
+
+    transition:
+        transform .12s,
+        opacity .12s;
+}
+
+.album-card:active {
+    transform: scale(.96);
+    opacity: .8;
+}
+
+.album-cover {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    background: #292c47;
+
+    border:
+        1px solid #3b3e59;
+
+    box-shadow:
+        0 4px 0 #0a0b12;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.album-cover img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    image-rendering: pixelated;
+}
+
+.album-placeholder {
+    color: #555a79;
+
+    font-size: 18px;
+}
+
+.album-name {
+    margin-top: 8px;
+
+    font-size: 6px;
+
+    color: #eee5cf;
+}
+
+.album-count {
+    margin-top: 5px;
+
+    font-size: 5px;
+
+    color: #777b9b;
+}
+
+
+/* =========================
+   ALBUM VIEW
+========================= */
+
+.album-view {
+    display: none;
+}
+
+.album-view.active {
+    display: block;
+}
+
+.album-view-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+.album-back {
+    width: 27px;
+    height: 27px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: #343750;
+
+    color: #fff;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+.album-view-title {
+    font-size: 8px;
+
+    color: #eee5cf;
+}
+
+
+
+/* ---------- PHOTO VIEWER ACTIONS ---------- */
+
+.photo-viewer-actions {
+    display: grid;
+    grid-template-columns: 52px 1fr 52px;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0 5px;
+}
+
+.photo-action {
+    min-width: 52px;
+    height: 34px;
+    padding: 0 7px;
+    border: 1px solid rgba(255,255,255,.72);
+    border-radius: 10px;
+    background: rgba(255,255,255,.48);
+    color: #39778c;
+    font-family: inherit;
+    font-size: 5px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 rgba(55,147,171,.14), inset 0 1px rgba(255,255,255,.7);
+}
+
+.photo-action:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 rgba(55,147,171,.14);
+}
+
+.photo-action.favorite.active {
+    color: #e98eb4;
+    background: rgba(255,239,247,.78);
+}
+
+.photo-action.delete {
+    color: #d36d8e;
+}
+
+.photo-action.share {
+    justify-self: start;
+}
+
+.photo-center-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.photo-action.delete {
+    justify-self: end;
+}
+
+.photo-info {
+    display: none;
+    margin: 6px 0 8px;
+    padding: 11px 12px;
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 12px;
+    background: rgba(248,255,255,.66);
+    color: #39778c;
+    font-size: 5px;
+    line-height: 1.9;
+    text-align: left;
+    box-shadow: 0 5px 16px rgba(46,157,184,.12);
+}
+
+.photo-info.active {
+    display: block;
+}
+
+.photo-info strong {
+    color: #24556a;
+}
+
+.photo-zoom-controls {
+    position: absolute;
+    right: 9px;
+    bottom: 9px;
+    z-index: 4;
+    display: flex;
+    gap: 5px;
+}
+
+.photo-zoom-controls button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(255,255,255,.82);
+    border-radius: 50%;
+    background: rgba(248,255,255,.58);
+    color: #39778c;
+    font-family: inherit;
+    font-size: 8px;
+    box-shadow: 0 3px 0 rgba(55,147,171,.12);
+}
+
+.photo-main.zoomed img {
+    cursor: grab;
+}
+
+.camera-roll-badge {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    z-index: 2;
+    padding: 4px 5px;
+    border-radius: 6px;
+    background: rgba(36,85,106,.64);
+    color: #fff;
+    font-size: 4px;
+}
+
+/* =========================
+   PHOTO VIEWER
+========================= */
+
+.photo-viewer {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 80;
+
+    display: none;
+
+    flex-direction: column;
+
+    background: #080a12;
+
+    padding:
+        45px
+        16px
+        18px;
+
+    /* Swipe hareketinin browser tarafından
+       scroll/zoom olarak yorumlanmasını engeller */
+    touch-action: pan-y;
+}
+
+.photo-viewer.active {
+    display: flex;
+}
+
+.photo-viewer-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    height: 32px;
+
+    margin-bottom: 15px;
+}
+
+.photo-back {
+    width: 30px;
+    height: 30px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: #292c47;
+
+    color: #eee5cf;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.photo-viewer-title {
+    font-size: 7px;
+
+    color: #d7d4e9;
+
+    min-width: 55px;
+
+    text-align: center;
+}
+
+.photo-close {
+    width: 30px;
+    height: 30px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: #292c47;
+
+    color: #fff;
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    cursor: pointer;
+}
+
+.photo-main {
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 0;
+
+    position: relative;
+
+    touch-action: pan-y;
+
+    overflow: hidden;
+}
+
+.photo-main img {
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.5);
+
+    transition:
+        transform .18s ease,
+        opacity .18s ease;
+}
+
+
+/* =========================
+   PHOTO COUNTER
+========================= */
+
+.photo-counter {
+    font-size: 7px;
+
+    color: #d7d4e9;
+
+    text-align: center;
+
+    min-width: 55px;
+}
+
+
+/* =========================
+   PHOTO NAVIGATION FEEDBACK
+========================= */
+
+.photo-main.swipe-left img {
+    transform: translateX(-18px);
+    opacity: .75;
+}
+
+.photo-main.swipe-right img {
+    transform: translateX(18px);
+    opacity: .75;
+}
+
+
+/* =========================
+   NOTE
+========================= */
+
+.note {
+    background: #f0dfb7;
+
+    color: #292437;
+
+    padding: 18px;
+
+    border-radius: 3px;
+
+    box-shadow:
+        5px 5px 0 #0a0b12;
+
+    line-height: 2;
+}
+
+
+/* =========================
+   DOG
+========================= */
+
+.dog-card {
+    text-align: center;
+
+    padding: 20px;
+}
+
+.big-dog {
+    font-size: 75px;
+
+    margin: 20px;
+}
+
+
+/* =========================
+   SECRET
+========================= */
+
+
+
+/* =========================
+   LOCK SCREEN
+========================= */
+
+.lock {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content:
+        space-between;
+
+    padding:
+        75px
+        20px
+        45px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #10142d 0%,
+            #171735 45%,
+            #241c3b 100%
+        );
+
+    transition:
+        transform .7s ease;
+}
+
+.lock.hidden {
+    transform:
+        translateY(-100%);
+}
+
+
+/* =========================
+   LOCK CLOCK
+========================= */
+
+.lock-time {
+    font-size: 37px;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        3px 3px #0b0c18;
+}
+
+.lock-date {
+    margin-top: 12px;
+
+    font-size: 7px;
+
+    color: #d9d5ea;
+    text-align: center;
+    width: 100%;
+}
+
+
+/* =========================
+   UNLOCK
+========================= */
+
+.unlock {
+    border:
+        1px solid #8172b6;
+
+    background:
+        #292540;
+
+    color:
+        #f5dfb8;
+
+    padding:
+        13px 18px;
+
+    border-radius:
+        10px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        7px;
+
+    box-shadow:
+        0 5px #151323;
+
+    cursor:
+        pointer;
+}
+
+.unlock:active {
+    transform:
+        translateY(5px);
+
+    box-shadow:
+        none;
+}
+
+
+/* =========================================================
+   BABY BLUE PIXEL LIGHT THEME
+   Abstract, object-free wallpaper inspired by the reference
+   ========================================================= */
+
+:root {
+    --sky-0: #8edff0;
+    --sky-1: #a9ecf2;
+    --sky-2: #c7f5f5;
+    --sky-3: #e7fbfa;
+    --cyan: #67cfe2;
+    --cyan-deep: #49b8d2;
+    --ice: #f7ffff;
+    --ink: #24556a;
+    --ink-soft: #4d7f91;
+    --glass: rgba(238, 253, 255, .44);
+    --glass-strong: rgba(244, 255, 255, .68);
+}
+
+body {
+    background: #b8edf3;
+    color: var(--ink);
+}
+
+.phone {
+    background: #b8edf3;
+    border: 9px solid #77d1e2;
+    box-shadow:
+        0 0 0 2px rgba(255,255,255,.75),
+        0 30px 80px rgba(52, 166, 194, .30);
+}
+
+/* ---------- ABSTRACT PIXEL WALLPAPER ---------- */
+
+.wallpaper {
+    background:
+        radial-gradient(ellipse 75% 34% at 12% 16%,
+            rgba(255,255,255,.96) 0 9%,
+            rgba(235,255,255,.82) 10% 22%,
+            rgba(255,255,255,0) 46%),
+        radial-gradient(ellipse 78% 28% at 86% 26%,
+            rgba(255,255,255,.82) 0 8%,
+            rgba(208,249,249,.58) 18%,
+            rgba(255,255,255,0) 52%),
+        radial-gradient(ellipse 72% 34% at 24% 78%,
+            rgba(102,210,232,.55) 0 16%,
+            rgba(142,226,238,.32) 30%,
+            rgba(255,255,255,0) 64%),
+        linear-gradient(135deg,
+            var(--sky-0) 0%,
+            #92e4f0 18%,
+            var(--sky-1) 40%,
+            var(--sky-2) 61%,
+            #91ddeb 82%,
+            #74cfe2 100%);
+}
+
+.wallpaper::before {
+    content: "";
+    position: absolute;
+    inset: -8%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 7px,
+            rgba(255,255,255,.11) 7px 8px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 7px,
+            rgba(255,255,255,.09) 7px 8px
+        );
+    opacity: .48;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+.wallpaper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            153deg,
+            transparent 0 44%,
+            rgba(255,255,255,.10) 44.5% 48%,
+            transparent 48.5% 100%
+        ),
+        linear-gradient(
+            28deg,
+            transparent 0 70%,
+            rgba(255,255,255,.26) 70.5% 75%,
+            transparent 75.5% 100%
+        );
+    filter: blur(1px);
+    opacity: .82;
+    pointer-events: none;
+}
+
+.pixel-field {
+    position: absolute;
+    pointer-events: none;
+    image-rendering: pixelated;
+}
+
+.pixel-field-1 {
+    width: 190px;
+    height: 190px;
+    left: -35px;
+    top: 105px;
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            rgba(93,199,226,.58) 0 25%,
+            rgba(213,250,250,.40) 0 50%
+        );
+    background-size: 14px 14px;
+    mask-image: radial-gradient(circle at center, black 0 46%, transparent 78%);
+    -webkit-mask-image: radial-gradient(circle at center, black 0 46%, transparent 78%);
+    transform: rotate(-12deg);
+    opacity: .75;
+}
+
+.pixel-field-2 {
+    width: 260px;
+    height: 240px;
+    right: -65px;
+    top: 205px;
+    background:
+        repeating-conic-gradient(
+            from 45deg,
+            rgba(82,190,220,.50) 0 25%,
+            rgba(230,253,253,.28) 0 50%
+        );
+    background-size: 12px 12px;
+    mask-image: radial-gradient(ellipse at center, black 0 42%, transparent 74%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0 42%, transparent 74%);
+    transform: rotate(8deg);
+    opacity: .78;
+}
+
+.pixel-field-3 {
+    width: 330px;
+    height: 190px;
+    left: 70px;
+    bottom: -42px;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(255,255,255,.60) 0 8px,
+            rgba(111,209,231,.18) 8px 16px
+        );
+    mask-image: radial-gradient(ellipse at center, black 0 36%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0 36%, transparent 72%);
+    transform: rotate(-5deg);
+    opacity: .62;
+}
+
+.pixel-spark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,.95);
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,.18),
+        0 0 14px rgba(255,255,255,.95);
+    image-rendering: pixelated;
+    animation: pixelTwinkle 2.8s steps(2,end) infinite;
+    z-index: 2;
+}
+
+.spark-1 { left: 15%; top: 13%; }
+.spark-2 { left: 69%; top: 18%; width: 4px; height: 4px; animation-delay: .5s; }
+.spark-3 { left: 83%; top: 39%; width: 5px; height: 5px; animation-delay: 1.1s; }
+.spark-4 { left: 30%; top: 46%; width: 4px; height: 4px; animation-delay: .8s; }
+.spark-5 { left: 58%; top: 57%; width: 7px; height: 7px; animation-delay: 1.6s; }
+.spark-6 { left: 12%; top: 67%; width: 4px; height: 4px; animation-delay: 2s; }
+.spark-7 { left: 77%; top: 74%; width: 5px; height: 5px; animation-delay: .25s; }
+.spark-8 { left: 42%; top: 83%; width: 4px; height: 4px; animation-delay: 1.3s; }
+
+@keyframes pixelTwinkle {
+    0%, 100% { opacity: .35; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.45); }
+}
+
+/* ---------- STATUS / NOTCH ---------- */
+
+.status {
+    color: #f7ffff;
+    text-shadow: 1px 1px rgba(36,85,106,.18);
+}
+
+.notch {
+    background: rgba(78, 184, 207, .72);
+    box-shadow: 0 2px 10px rgba(255,255,255,.20);
+}
+
+/* ---------- HOME WIDGETS ---------- */
+
+.widget {
+    background: var(--glass);
+    border: 1px solid rgba(255,255,255,.58);
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.72),
+        0 8px 24px rgba(51,157,184,.13);
+    backdrop-filter: blur(8px);
+}
+
+.widget-title {
+    color: #4d91a5;
+}
+
+.calendar-day {
+    color: #ffffff;
+    text-shadow: 2px 2px rgba(66,173,198,.28);
+}
+
+.calendar-text {
+    color: #46788b;
+}
+
+.calendar-text span {
+    color: #e98eb4 !important;
+}
+
+.album {
+    background: linear-gradient(135deg, #79d8e8, #bdf5f5);
+    color: #ffffff;
+    box-shadow: inset 0 1px rgba(255,255,255,.65);
+}
+
+.song {
+    color: #24556a;
+}
+
+.song span {
+    color: #4d91a5 !important;
+}
+
+.music-btn {
+    border: 1px solid rgba(255,255,255,.72);
+    background: rgba(255,255,255,.34);
+    color: #39778c;
+    box-shadow: 0 4px 0 rgba(65,164,190,.24);
+}
+
+.music-btn:active {
+    transform: translateY(3px);
+}
+
+/* ---------- APP ICONS ---------- */
+
+.icon {
+    border: 1px solid rgba(255,255,255,.72);
+    box-shadow:
+        0 6px 0 rgba(61,165,190,.20),
+        inset 0 1px rgba(255,255,255,.72);
+}
+
+.gallery { background: linear-gradient(135deg,#8cdded,#d7fbfa); }
+.notes { background: linear-gradient(135deg,#a6e8ef,#f4ffff); }
+.dogicon { background: linear-gradient(135deg,#89d9e8,#c9f7f6); }
+
+/* ---------- ESPAÑOL ICON ---------- */
+
+.spanish-icon {
+    overflow: hidden;
+    padding: 0;
+}
+
+.spanish-icon img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.app-name {
+    color: #f8ffff;
+    text-shadow: 1px 1px rgba(41,111,132,.20);
+}
+
+/* ---------- DOCK ---------- */
+
+.dock {
+    background: rgba(235, 253, 255, .48);
+    border: 1px solid rgba(255,255,255,.68);
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.72),
+        0 8px 25px rgba(45,157,185,.18);
+}
+
+.messages-icon,
+.spotify-icon {
+    box-shadow:
+        0 5px 0 rgba(45,151,176,.25),
+        inset 0 1px rgba(255,255,255,.55);
+}
+
+.messages-icon:active,
+.spotify-icon:active {
+    box-shadow: 0 2px rgba(45,151,176,.25);
+}
+
+/* ---------- CAMERA ---------- */
+
+.camera-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.20), transparent 30%),
+        linear-gradient(180deg, #79cfe0 0%, #b9edf1 52%, #78c9dc 100%);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.camera-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 4px 8px;
+    color: #f8ffff;
+    font-size: 6px;
+    text-shadow: 1px 1px rgba(36,85,106,.25);
+}
+
+.camera-preview {
+    flex: 1;
+    min-height: 0;
+    margin: 4px 2px 10px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,.72);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.04)),
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.07) 0 5px,
+            transparent 5px 10px
+        ),
+        linear-gradient(145deg, #a6e9ef 0%, #d9f9f7 52%, #8bd8e8 100%);
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.8),
+        0 5px 0 rgba(55,147,171,.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.camera-live {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #8bd8e8;
+    transform: scaleX(-1);
+}
+
+.camera-preview.camera-ready::before {
+    content: "LIVE CAMERA";
+    position: absolute;
+    top: 9px;
+    left: 10px;
+    z-index: 3;
+    font-size: 5px;
+    color: rgba(255,255,255,.9);
+    text-shadow: 1px 1px rgba(45,103,121,.35);
+}
+
+.camera-grid {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: .22;
+    background:
+        linear-gradient(90deg, transparent 32.8%, rgba(255,255,255,.9) 33%, transparent 33.2%, transparent 66.1%, rgba(255,255,255,.9) 66.3%, transparent 66.5%),
+        linear-gradient(0deg, transparent 32.8%, rgba(255,255,255,.9) 33%, transparent 33.2%, transparent 66.1%, rgba(255,255,255,.9) 66.3%, transparent 66.5%);
+}
+
+.camera-permission {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(145deg,#d9f9f7,#9fe6ef);
+    color: #39778c;
+}
+
+.camera-permission-title { font-size: 9px; }
+.camera-permission-text { font-size: 5px; line-height: 1.7; max-width: 170px; }
+
+.camera-start-button {
+    border: 1px solid rgba(255,255,255,.9);
+    background: #f8ffff;
+    color: #39778c;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 5px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 rgba(55,147,171,.18);
+}
+
+.camera-controls {
+    display: grid;
+    grid-template-columns: 52px 1fr 52px;
+    align-items: center;
+    justify-items: center;
+    padding: 2px 12px 12px;
+}
+
+.camera-gallery-btn,
+.camera-flip-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255,255,255,.88);
+    border-radius: 50%;
+    background: rgba(255,255,255,.30);
+    color: #39778c;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 3px 0 rgba(55,147,171,.16), inset 0 0 0 2px rgba(255,255,255,.18);
+    transition: transform .12s ease, background .12s ease;
+    overflow: hidden;
+}
+
+.camera-gallery-btn {
+    position: relative;
+    padding: 0;
+    background: rgba(255,255,255,.42);
+}
+
+.camera-gallery-btn::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: linear-gradient(145deg,#dff9f7,#8ed8e7);
+    border: 1px solid rgba(255,255,255,.82);
+}
+
+.camera-gallery-btn::after {
+    content: "♡";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: rgba(57,119,140,.72);
+    z-index: 2;
+}
+
+.camera-gallery-btn.has-photo::before {
+    background-size: cover;
+    background-position: center;
+}
+
+.camera-gallery-btn.has-photo::after {
+    content: "";
+}
+
+.camera-flip-btn {
+    font-size: 0;
+    position: relative;
+}
+
+.camera-flip-btn::before {
+    content: "↻";
+    font-size: 18px;
+    line-height: 1;
+}
+
+.camera-gallery-btn:active,
+.camera-flip-btn:active {
+    transform: scale(.92);
+    background: rgba(255,255,255,.52);
+}
+
+.camera-shutter {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,.92);
+    background: #f8ffff;
+    box-shadow:
+        0 5px 0 rgba(55,147,171,.24),
+        inset 0 0 0 3px rgba(116,201,218,.42);
+    cursor: pointer;
+    position: relative;
+}
+
+.camera-shutter:active {
+    transform: translateY(4px);
+    box-shadow:
+        0 1px 0 rgba(55,147,171,.24),
+        inset 0 0 0 3px rgba(116,201,218,.42);
+}
+
+.camera-status {
+    text-align: center;
+    min-height: 15px;
+    color: #39778c;
+    font-size: 5px;
+    padding-bottom: 5px;
+    opacity: .85;
+}
+
+.camera-flash {
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.camera-flash.active {
+    animation: cameraFlash .22s steps(2,end);
+}
+
+@keyframes cameraFlash {
+    0% { opacity: 0; }
+    35% { opacity: .95; }
+    100% { opacity: 0; }
+}
+
+.camera-captured {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    background: rgba(248,255,255,.96);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #39778c;
+}
+
+.camera-captured.active {
+    display: flex;
+}
+
+.camera-captured-photo {
+    width: 78%;
+    aspect-ratio: 1;
+    border-radius: 9px;
+    border: 2px solid rgba(255,255,255,.9);
+    background:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.8), transparent 20%),
+        linear-gradient(145deg,#9fe6ef,#dffafa 55%,#8fd9e8);
+    box-shadow: 0 7px 0 rgba(55,147,171,.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+}
+
+.camera-captured-text {
+    margin-top: 12px;
+    font-size: 7px;
+}
+
+.camera-view-button {
+    margin-top: 10px;
+    border: 1px solid rgba(255,255,255,.72);
+    background: rgba(218,247,251,.8);
+    color: #39778c;
+    border-radius: 8px;
+    padding: 8px 11px;
+    font-family: inherit;
+    font-size: 5px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 rgba(55,147,171,.15);
+}
+
+
+/* ---------- REALISTIC PIXEL SPOTIFY ---------- */
+/* ---------- SPOTIFY ---------- */
+.spotify-screen{height:100%;min-height:100%;display:flex;flex-direction:column;background:#121212;color:#fff;overflow-y:auto;overflow-x:hidden;padding:12px 10px 16px;}
+.spotify-screen::-webkit-scrollbar{display:none;}
+.spotify-topbar{display:flex;align-items:center;justify-content:space-between;padding:3px 1px 13px;}
+.spotify-brand{display:flex;align-items:center;gap:8px;font-size:8px;color:#fff;font-weight:700;letter-spacing:-.2px;}
+.spotify-brand-mark{width:23px;height:23px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 23px;background:transparent;}
+.spotify-brand-mark img{width:100%;height:100%;display:block;object-fit:cover;image-rendering:pixelated;}
+.spotify-profile{width:27px;height:27px;border-radius:50%;background:#292929;border:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
+.spotify-greeting{font-size:17px;font-weight:700;letter-spacing:-.4px;margin:1px 0 12px;color:#fff;}
+.spotify-chips{display:flex;gap:6px;overflow:hidden;margin-bottom:16px;}
+.spotify-chip{border:0;border-radius:18px;padding:7px 11px;background:#2a2a2a;color:#fff;font-size:8px;white-space:nowrap;}
+.spotify-chip.active{background:#1ed760;color:#000;font-weight:700;}
+.spotify-section-title{font-size:13px;font-weight:700;letter-spacing:-.2px;margin:2px 0 10px;color:#fff;}
+.spotify-quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.spotify-quick-card{height:50px;display:flex;align-items:center;gap:8px;background:#242424;border-radius:5px;overflow:hidden;cursor:pointer;}
+.spotify-quick-cover{width:50px;height:50px;flex:0 0 50px;display:flex;align-items:center;justify-content:center;background:#333;color:#fff;font-size:17px;overflow:hidden;}
+.spotify-quick-cover img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;}
+.spotify-quick-title{font-size:7px;font-weight:700;line-height:1.3;color:#fff;padding-right:4px;}
+.spotify-now{background:linear-gradient(145deg,#292929,#1c1c1c);border:0;border-radius:8px;padding:11px;margin-bottom:18px;box-shadow:none;}
+.spotify-now-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.spotify-now-label{font-size:7px;color:#b3b3b3;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.spotify-now-more{font-size:11px;color:#b3b3b3;}
+.spotify-cover{width:100%;aspect-ratio:1/1;border-radius:4px;overflow:hidden;background:#282828;border:0;box-shadow:none;display:flex;align-items:center;justify-content:center;}
+.spotify-cover img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;display:block;}
+.spotify-cover-fallback{font-size:48px;color:#b3b3b3;}
+.spotify-song-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;}
+.spotify-song-block{min-width:0;}
+.spotify-song-title{font-size:11px;font-weight:700;margin:0;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.spotify-artist{font-size:7px;margin-top:4px;color:#b3b3b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.spotify-like{border:0;background:transparent;color:#b3b3b3;font-size:14px;}
+.spotify-progress{height:3px;background:#5a5a5a;border-radius:3px;margin:12px 0 5px;overflow:hidden;}
+.spotify-progress-fill{height:100%;width:0%;background:#fff;border-radius:3px;transition:width .15s linear;}
+.spotify-times{display:flex;justify-content:space-between;font-size:5px;color:#b3b3b3;}
+.spotify-controls{display:flex;align-items:center;justify-content:center;gap:28px;margin-top:10px;}
+.spotify-control{border:0;background:transparent;color:#fff;font-size:12px;cursor:pointer;padding:2px;}
+.spotify-control.play{width:38px;height:38px;border-radius:50%;background:#fff;color:#000;font-size:11px;font-weight:700;box-shadow:none;}
+.spotify-control:active{transform:scale(.94);}
+.spotify-status{min-height:10px;text-align:center;font-size:5px;color:#b3b3b3;margin-top:8px;}
+.spotify-row{display:flex;align-items:center;gap:9px;padding:7px 2px;border-radius:4px;background:transparent;border:0;cursor:pointer;}
+.spotify-row-cover{width:43px;height:43px;border-radius:2px;background:#282828;display:flex;align-items:center;justify-content:center;color:#b3b3b3;font-size:13px;overflow:hidden;flex:0 0 43px;}
+.spotify-row-cover img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;}
+.spotify-row-text{flex:1;min-width:0;}
+.spotify-row-title{font-size:8px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff;}
+.spotify-row-artist{font-size:6px;color:#b3b3b3;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.spotify-row-play{width:27px;height:27px;border:1px solid #6f6f6f;border-radius:50%;background:transparent;color:#fff;font-size:8px;}
+.spotify-add{margin-top:9px;width:100%;border:1px dashed #535353;background:#202020;color:#b3b3b3;border-radius:5px;padding:8px;font-size:6px;cursor:pointer;}
+.spotify-add:active{transform:translateY(2px);}
+.spotify-hidden-input{display:none;}
+.spotify-status{min-height:11px;text-align:center;font-size:4px;color:#5b8998;margin-top:7px;}
+
+/* ---------- APP WINDOWS ---------- */
+
+/* Spotify takes over the whole app surface so it feels like a real standalone app,
+   rather than Spotify sitting inside the blue phone UI. */
+.app-window.spotify-app {
+    padding: 0;
+    background: #121212;
+    color: #fff;
+}
+.app-window.spotify-app .app-header {
+    display: none;
+}
+.app-window.spotify-app .content {
+    color: #fff;
+    font-size: 7px;
+    line-height: 1.8;
+    overflow-y: auto;
+    padding: 0;
+}
+.spotify-close {
+    width: 24px;
+    height: 24px;
+    border: 0;
+    border-radius: 50%;
+    background: #292929;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    flex: 0 0 24px;
+}
+.spotify-close:active { transform: scale(.94); }
+
+.app-window {
+    background:
+        radial-gradient(circle at 85% 8%, rgba(255,255,255,.72), transparent 24%),
+        linear-gradient(145deg, #a9eaf1 0%, #d8f9f8 52%, #9cdeeb 100%);
+    color: var(--ink);
+}
+
+.app-header {
+    border-bottom: 1px solid rgba(255,255,255,.55);
+}
+
+.app-title {
+    color: #2e6579;
+}
+
+.close,
+.photo-back,
+.photo-close {
+    background: rgba(255,255,255,.46);
+    color: #39778c;
+    box-shadow: inset 0 1px rgba(255,255,255,.7);
+}
+
+.content {
+    color: #356f82;
+}
+
+.message {
+    background: rgba(246,255,255,.58);
+    border: 1px solid rgba(255,255,255,.68);
+    color: #356f82;
+    box-shadow: 0 4px 14px rgba(46,157,184,.10);
+}
+
+.message.me {
+    background: rgba(116,211,228,.55);
+    color: #24556a;
+}
+
+/* ---------- GALLERY ---------- */
+
+.gallery-tabs {
+    border-bottom: 1px solid rgba(255,255,255,.55);
+}
+
+.gallery-tab {
+    color: #6b9cac;
+}
+
+.gallery-tab.active {
+    color: #2d6d81;
+}
+
+.gallery-image,
+.album-cover {
+    background: rgba(238,253,255,.52);
+    border: 1px solid rgba(255,255,255,.70);
+    box-shadow: 0 4px 0 rgba(48,150,177,.20);
+}
+
+.album-placeholder {
+    color: #5aa6b9;
+}
+
+.album-name {
+    color: #2f7186;
+}
+
+.album-count {
+    color: #6598a7;
+}
+
+/* ---------- PHOTO VIEWER ---------- */
+
+.photo-viewer {
+    background:
+        radial-gradient(circle at 20% 18%, rgba(255,255,255,.78), transparent 28%),
+        linear-gradient(145deg, #9fe6ef, #dcfbfa 58%, #9cdeeb);
+}
+
+.photo-viewer-title,
+.photo-counter {
+    color: #39778c;
+}
+
+.photo-main img {
+    box-shadow: 0 8px 30px rgba(40,142,169,.24);
+}
+
+/* ---------- NOTE / SECRET ---------- */
+
+.note {
+    background: rgba(248,255,255,.72);
+    color: #24556a;
+    border: 1px solid rgba(255,255,255,.72);
+    box-shadow: 5px 5px 0 rgba(54,151,176,.18);
+}
+
+.secret-screen p {
+    color: #39778c;
+}
+
+/* ---------- LOCK SCREEN ---------- */
+
+.lock {
+    background:
+        radial-gradient(ellipse 80% 32% at 15% 16%,
+            rgba(255,255,255,.96) 0 10%,
+            rgba(255,255,255,0) 52%),
+        radial-gradient(ellipse 70% 34% at 88% 72%,
+            rgba(87,201,225,.42),
+            rgba(255,255,255,0) 66%),
+        linear-gradient(135deg,
+            #83dced 0%,
+            #a9edf2 34%,
+            #dcfaf9 62%,
+            #8bd9e9 100%);
+    overflow: hidden;
+}
+
+.lock::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 7px,
+            rgba(255,255,255,.12) 7px 8px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 7px,
+            rgba(255,255,255,.10) 7px 8px
+        );
+    opacity: .55;
+    pointer-events: none;
+}
+
+.lock::after {
+    content: "✦   ·      ✧       ·   ✦";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 29%;
+    text-align: center;
+    font-family: monospace;
+    font-size: 13px;
+    letter-spacing: 8px;
+    color: rgba(255,255,255,.82);
+    text-shadow: 0 0 10px rgba(255,255,255,.72);
+    pointer-events: none;
+}
+
+.lock > * {
+    position: relative;
+    z-index: 2;
+}
+
+.lock-time {
+    color: #ffffff;
+    text-shadow:
+        3px 3px rgba(54,150,177,.18),
+        0 0 18px rgba(255,255,255,.55);
+}
+
+.lock-date {
+    color: #4d8191;
+}
+
+.unlock {
+    border: 1px solid rgba(255,255,255,.78);
+    background: rgba(255,255,255,.48);
+    color: #39778c;
+    box-shadow: 0 5px rgba(52,157,184,.20);
+    backdrop-filter: blur(5px);
+}
+
+.unlock:active {
+    box-shadow: none;
+}
+
+/* Remove any legacy decorative object if one is reintroduced. */
+.moon,
+.city,
+.building,
+.window,
+.pixel-dog,
+.star {
+    display: none !important;
+}
+
+
+
+/* =========================
+   ESPAÑOL — ONE CARD AT A TIME
+   ========================= */
+.spanish-page{height:100%;overflow-y:auto;padding:4px 2px 18px}
+.spanish-intro{text-align:center;color:#718ca4;font-size:7px;line-height:1.8;margin:3px 0 12px}
+.spanish-progress{width:78%;height:4px;margin:0 auto 15px;border-radius:8px;background:rgba(255,255,255,.45);overflow:hidden;border:1px solid rgba(120,160,180,.22)}
+.spanish-progress-bar{height:100%;border-radius:8px;background:linear-gradient(90deg,#9bdce8,#a89ad8);transition:width .3s ease}
+.spanish-stage{width:100%;height:395px;display:flex;justify-content:center;align-items:center;perspective:1000px}
+.spanish-card{width:88%;max-width:285px;height:360px;padding:0;border:0;background:transparent;perspective:1000px;cursor:pointer;font-family:inherit}
+.spanish-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.spanish-card.flipped .spanish-card-inner{transform:rotateY(180deg)}
+.spanish-face{position:absolute;inset:0;overflow:hidden;border-radius:15px;border:1px solid rgba(255,255,255,.82);background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(221,247,252,.58));box-shadow:0 8px 0 rgba(113,140,164,.12),0 12px 25px rgba(78,105,125,.12),inset 0 1px rgba(255,255,255,.9);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.spanish-front{display:flex;flex-direction:column;padding:9px}
+.spanish-photo-frame{width:100%;height:280px;overflow:hidden;border-radius:10px;border:1px solid rgba(255,255,255,.8);background:#dff5f8;box-shadow:inset 0 1px rgba(255,255,255,.8)}
+.spanish-front img{width:100%;height:100%;object-fit:cover;display:block}
+.spanish-word{color:#587a8d;font-size:10px;font-weight:bold;letter-spacing:.4px;text-align:center;padding:10px 5px 2px}
+.spanish-meaning{color:#88a0ac;font-size:7px;text-align:center}
+.spanish-tap{color:#9aabb4;font-size:5px;text-align:center;margin-top:auto;padding:5px}
+.spanish-back{transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:28px}
+.spanish-big{color:#587a8d;font-size:15px;font-weight:bold;letter-spacing:.5px}
+.spanish-tr{color:#8aa0ad;font-size:9px;margin-top:8px}
+.spanish-divider{width:55%;height:1px;margin:24px 0;background:rgba(88,122,141,.22)}
+.spanish-example{color:#668699;font-size:11px;font-weight:bold}
+.spanish-example-tr{color:#91a7b1;font-size:7px;margin-top:8px}
+.spanish-hint{color:#a2b1b8;font-size:5px;margin-top:25px}
+.spanish-nav{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:3px}
+.spanish-nav button{border:1px solid rgba(255,255,255,.7);background:rgba(230,249,253,.62);color:#64869a;border-radius:9px;padding:8px 12px;font-family:inherit;font-size:6px;box-shadow:0 3px 0 rgba(100,134,154,.13),inset 0 1px rgba(255,255,255,.8)}
+.spanish-nav button:disabled{opacity:.35}
+.spanish-counter{color:#829ba7;font-size:6px}
+.spanish-done{text-align:center;padding-top:40px}
+.spanish-done-title{color:#587a8d;font-size:13px;font-weight:bold;margin-bottom:10px}
+.spanish-done-text{color:#8aa0ad;font-size:7px;line-height:1.8}
+.spanish-review{margin-top:22px;border:1px solid rgba(255,255,255,.7);background:rgba(230,249,253,.62);color:#64869a;border-radius:9px;padding:9px 13px;font-family:inherit;font-size:6px}
+.spanish-thumbs{display:flex;justify-content:center;gap:5px;margin-top:22px}
+.spanish-thumb{width:39px;height:48px;object-fit:cover;border-radius:5px;border:1px solid rgba(255,255,255,.8)}
+
+
+/* =========================================================
+   DRESS-UP GAME — room-first layout
+   ========================================================= */
+.dressup-icon{
+    background:#6fa8c7;
+    color:#173b4d;font-size:16px;
+    text-shadow:2px 2px 0 rgba(255,255,255,.45);
+}
+.dressup-icon::after{content:"✦";position:absolute;font-size:6px;margin:-22px 0 0 21px;color:#d9c46f}
+
+/* =========================================================
+   SINA'S ROOM — pastel pixel-art UI
+   Soft Stardew-inspired palette, layered pixel depth.
+   ========================================================= */
+.game-overlay{
+    position:absolute;inset:0;z-index:200;display:none;overflow:hidden;
+    background:#6da0d7;font-family:'Press Start 2P',monospace;color:#53656b;
+    image-rendering:pixelated;
+}
+.game-overlay.active{display:block}
+
+/* ---------- LOADING ---------- */
+.game-loading{
+    position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;background:#eee2df;color:#566d9d;
+}
+.game-loading::before,
+.game-loading::after{
+    content:"";position:absolute;width:9px;height:9px;background:#6da9dc;
+    box-shadow:9px 0 #6da9dc,0 9px #6da9dc,9px 9px #6da9dc;
+}
+.game-loading::before{top:18px;left:18px}
+.game-loading::after{right:18px;bottom:18px;background:#dec6db;box-shadow:9px 0 #dec6db,0 9px #dec6db,9px 9px #dec6db}
+.game-loading-title{
+    font-size:11px;letter-spacing:1px;margin-bottom:18px;
+    color:#596da4;text-shadow:2px 2px 0 #d7c9d7;
+}
+.loading-bar{
+    width:190px;height:14px;padding:3px;
+    border:2px solid #596f9a;background:#f8efed;
+    box-shadow:3px 3px 0 #b9a9bb, inset 0 1px 0 #fff;
+}
+.loading-fill{
+    width:0;height:100%;background:#6da9dc;
+    box-shadow:inset 0 2px 0 #9dc8ea;
+    animation:gameLoad 3.35s steps(16,end) forwards;
+}
+.loading-dots{margin-top:14px;font-size:7px;color:#697ca7}.loading-dots::after{content:"";animation:loadingDots 1s steps(4,end) infinite}
+@keyframes gameLoad{0%{width:0}100%{width:100%}}
+@keyframes loadingDots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}100%{content:""}}
+
+/* ---------- TOP BAR ---------- */
+.game-topbar{
+    position:absolute;z-index:30;left:0;right:0;top:0;height:38px;
+    display:flex;align-items:center;padding:0 7px 0 10px;
+    background:#a9d7df;border-bottom:3px solid #607f8a;
+    box-shadow:0 4px 0 #7fabb5, inset 0 2px 0 #d6eef0, inset 0 -2px 0 #91c4ce;
+}
+.game-topbar::before{
+    content:"";position:absolute;left:6px;right:38px;top:6px;height:2px;
+    background:#d9f0f1;opacity:.9;box-shadow:0 1px 0 #86b8c2;
+}
+.game-title{display:none}
+.game-exit{
+    margin-left:auto;z-index:2;width:25px;height:25px;
+    border:2px solid #5b7180;background:#e4c878;color:#53616b;
+    font-family:inherit;font-size:7px;cursor:pointer;line-height:19px;padding:0;
+    box-shadow:3px 3px 0 #78909a, inset 0 2px 0 #f5dfa0, inset 0 -2px 0 #c6a957;
+}
+.game-exit:hover{background:#ecd58e}
+.game-exit:active{transform:translate(1px,1px);box-shadow:2px 2px 0 #78909a}
+
+/* ---------- ROOM ---------- */
+.game-room{
+    position:absolute;left:-2%;top:38px;width:104%;
+    aspect-ratio:1024/1536;overflow:hidden;background:#d9c9c5;
+}
+.room-art{
+    position:absolute;left:0;top:0;width:110%;height:auto;display:block;
+    image-rendering:pixelated;
+}
+
+/* Character coordinates are relative to the room art. */
+.game-character{
+    --character-width:76%;
+    position:absolute;z-index:4;left:50%;bottom:18%;width:var(--character-width);
+    aspect-ratio:1024/1536;transform:translateX(-50%);pointer-events:none;
+}
+.game-character img.base,.game-character img.blink,.game-character .clothing-layer{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:contain;image-rendering:pixelated;
+}
+.game-character img.base{display:block;z-index:1}
+.game-character img.blink{display:none;z-index:1}
+.game-character .clothing-layer{z-index:2;pointer-events:none}
+
+/* ---------- REAL CLOTHING ASSETS ---------- */
+/* Clothing PNGs use the same transparent character canvas as the base. */
+.clothing-asset{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:contain;image-rendering:pixelated;
+    display:none;pointer-events:none;
+}
+.clothing-asset.top-clothing-asset{z-index:20}
+.clothing-asset.bottom-clothing-asset{z-index:10}
+
+/* Temporary demo clothes. */
+.demo-top,.demo-bottom,.demo-jacket,.demo-shoe,.demo-accessory{position:absolute;display:none;image-rendering:pixelated}
+.demo-top{left:25%;top:22%;width:50%;height:18%;background:#7faed0;clip-path:polygon(10% 0,90% 0,100% 30%,86% 42%,84% 100%,16% 100%,14% 42%,0 30%);border:2px solid #587f9c;box-shadow:inset 0 3px 0 #b9d8ea}
+.demo-bottom{left:31%;top:42%;width:38%;height:20%;background:#687c9b;clip-path:polygon(5% 0,95% 0,100% 100%,55% 100%,50% 54%,45% 100%,0 100%);border:2px solid #52647e}
+.demo-jacket{left:22%;top:20%;width:56%;height:23%;border:4px solid #8b6c61;background:#b49378;clip-path:polygon(7% 0,43% 0,50% 12%,57% 0,93% 0,100% 100%,64% 100%,50% 45%,36% 100%,0 100%);box-shadow:inset 0 3px 0 #d1b7a2}
+.demo-shoe{width:25%;height:5%;top:91%;background:#806f75;border:2px solid #62565c}.demo-shoe.left{left:24%}.demo-shoe.right{left:51%}
+.demo-accessory{left:43%;top:8%;width:14%;height:8%;border:3px solid #d1ad58;background:#f4dfa0;border-radius:50%;box-shadow:inset 0 0 0 2px #fff0bd}
+
+/* ---------- BENGI'S LOOKS ---------- */
+.looks-button{
+    position:absolute;z-index:25;right:9px;bottom:16px;
+    border:2px solid #8e6570;background:#dec6db;color:#665266;
+    padding:8px 9px;font-family:inherit;font-size:5px;cursor:pointer;
+    box-shadow:4px 4px 0 #9f7c91, inset 0 2px 0 #f1dce9, inset 0 -2px 0 #c4a4bd;
+    text-shadow:1px 1px 0 rgba(255,255,255,.65);
+}
+.looks-button::before{content:"✦";margin-right:5px;color:#7a688f}
+.looks-button:hover{background:#e7d1e2}
+.looks-button:active{transform:translate(1px,1px);box-shadow:2px 2px 0 #9f7c91}
+
+/* ---------- BOTTOM GAME BAR ---------- */
+.game-bottombar{
+    position:absolute;z-index:20;left:0;right:0;top:571px;bottom:0;
+    background-color:#a9c9b3;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.075) 0px, rgba(255,255,255,.075) 2px, transparent 2px, transparent 7px),
+        repeating-linear-gradient(90deg, rgba(77,105,89,.055) 0px, rgba(77,105,89,.055) 2px, transparent 2px, transparent 9px);
+    border-top:3px solid #607f70;
+    box-shadow:inset 0 4px 0 #cfe2d3, inset 0 -4px 0 #86aa97, 0 -2px 0 #799888;
+    display:flex;align-items:flex-start;padding:14px 12px 9px;
+}
+.game-bottombar::before{
+    content:"";position:absolute;left:9px;right:9px;top:7px;height:3px;
+    background:#dceadf;box-shadow:0 1px 0 #8eb19c;
+}
+.game-bottombar::after{
+    content:"";position:absolute;inset:12px 9px 8px;pointer-events:none;
+    border:1px solid rgba(79,102,96,.12);
+    box-shadow:inset 0 0 0 2px rgba(220,234,223,.18);
+}
+.game-hint{
+    position:relative;z-index:2;font-size:8px;line-height:1.85;color:#4f6660;max-width:320px;
+    padding-top:6px;text-shadow:1px 1px 0 rgba(255,255,255,.72);
+}
+.game-hint::first-line{letter-spacing:.15px}
+
+/* ---------- CLICKABLE ROOM OBJECTS ---------- */
+.game-hotspot{position:absolute;z-index:10;border:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.rack-hotspot{right:2%;top:5%;width:42%;height:25%}
+.room-art-hitbox{
+    position:absolute;left:0;top:0;width:110%;aspect-ratio:1024/1536;
+    pointer-events:none;z-index:8;
+}
+.shoe-hotspot{right:1%;bottom:45%;width:38%;height:17%;pointer-events:auto}
+
+/* ---------- WARDROBE PANEL ---------- */
+.game-panel{
+    position:absolute;z-index:40;left:8px;right:8px;bottom:8px;min-height:145px;max-height:48%;
+    background:#f5eadf;border:2px solid #667d80;border-radius:5px;
+    box-shadow:6px 6px 0 #91a2a0, 0 0 0 3px rgba(245,234,223,.8), inset 0 2px 0 #fffdf8, inset 0 -3px 0 #ddcfc4;
+    transform:translateY(120%);transition:transform .18s steps(3,end);padding:9px 9px 8px;
+}
+.game-panel::before,.game-panel::after{
+    content:"";position:absolute;z-index:-1;height:5px;width:18px;background:#e1d1c5;
+}
+.game-panel::before{left:7px;top:-5px}.game-panel::after{right:7px;bottom:-5px}
+.game-panel.open{transform:translateY(0)}
+.game-panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:2px solid #b9aaa4;padding-bottom:6px}
+.game-panel-title{font-size:7px;color:#637b85;text-shadow:1px 1px 0 #fff}
+.game-panel-close{
+    border:2px solid #6b7e83;background:#e4c878;font:inherit;color:#5d6870;
+    font-size:8px;cursor:pointer;width:20px;height:20px;padding:0;border-radius:3px;
+    box-shadow:2px 2px 0 #9aa7a5, inset 0 2px 0 #f5dfa0, inset 0 -2px 0 #c6a957;
+}
+.game-tabs{display:flex;gap:5px;overflow-x:auto;padding-bottom:7px}
+.game-tab{
+    flex:0 0 auto;border:2px solid #7b8988;background:#e7d9c5;color:#617278;
+    padding:6px 7px;font:inherit;font-size:5px;cursor:pointer;border-radius:3px;
+    box-shadow:2px 2px 0 #b2a39a, inset 0 2px 0 #f7eee4, inset 0 -2px 0 #d2c1ad;
+}
+.game-tab.active{background:#a9d1e2;border-color:#657f8b;color:#536875;box-shadow:2px 2px 0 #8da5ae, inset 0 2px 0 #dff0f5, inset 0 -2px 0 #89b5ca}
+.game-tab:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #b2a39a}
+.item-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;overflow:auto;max-height:92px;padding:2px 1px}
+.item-btn{
+    min-height:53px;border:2px solid #9a9990;background:#fff8ed;font:inherit;font-size:4px;
+    color:#647275;cursor:pointer;padding:4px;border-radius:4px;
+    box-shadow:2px 2px 0 #bdb0a5, inset 0 2px 0 #fff;
+}
+.item-btn:hover{background:#f7ecdc}.item-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #bdb0a5}
+.item-preview{width:32px;height:32px;margin:0 auto 4px;position:relative;background:#e8dcd0;overflow:hidden;border:2px solid #8e9997;border-radius:3px;box-shadow:inset 0 2px 0 #f8f1eb}
+.item-preview .mini-asset{
+    position:absolute;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);
+    object-fit:contain;image-rendering:pixelated;
+}
+ .item-preview .mini-top{position:absolute;left:8px;top:8px;width:16px;height:16px;background:#7faed0;clip-path:polygon(10% 0,90% 0,100% 30%,85% 45%,82% 100%,18% 100%,15% 45%,0 30%)}
+.item-preview .mini-bottom{position:absolute;left:10px;top:14px;width:12px;height:15px;background:#687c9b;clip-path:polygon(0 0,100% 0,100% 100%,58% 100%,50% 52%,42% 100%,0 100%)}
+.item-preview .mini-jacket{position:absolute;left:7px;top:7px;width:18px;height:19px;background:#b49378;clip-path:polygon(8% 0,42% 0,50% 12%,58% 0,92% 0,100% 100%,62% 100%,50% 45%,38% 100%,0 100%)}
+.item-preview .mini-shoe{position:absolute;left:4px;bottom:5px;width:24px;height:7px;background:#806f75;border:1px solid #62565c}.item-preview .mini-acc{position:absolute;left:10px;top:8px;width:12px;height:12px;border:2px solid #d0ad5b;border-radius:50%;background:#f4dfa0}.no-items{grid-column:1/-1;text-align:center;font-size:5px;line-height:1.8;color:#73837e;padding:10px}
+@media (max-width:420px){.game-panel{max-height:50%}.looks-button{right:8px;bottom:16px}}
+
+
+/* =========================
+   GALLERY APP OPEN/CLOSE TRANSITION
+   Pixel-phone style: the gallery grows out of its icon
+========================= */
+.app-window.gallery-transition {
+    transform-origin: 12.5% 25%;
+    transform: scale(.14);
+    opacity: 0;
+    border-radius: 16px;
+    transition:
+        transform .28s cubic-bezier(.2,.85,.25,1),
+        opacity .18s ease,
+        border-radius .28s ease;
+}
+
+.app-window.gallery-transition.gallery-transition-active {
+    transform: scale(1);
+    opacity: 1;
+    border-radius: 0;
+}
+
+.app-window.gallery-transition.gallery-transition-closing {
+    transform: scale(.14);
+    opacity: 0;
+    border-radius: 16px;
+    transition:
+        transform .22s cubic-bezier(.7,.05,.85,.2),
+        opacity .16s ease,
+        border-radius .22s ease;
+}
+
+
+/* =========================
+   ESPAÑOL APP OPEN/CLOSE TRANSITION
+   Same tiny iPhone-style launch as Gallery
+========================= */
+.app-window.spanish-transition {
+    transform-origin: 62.5% 25%;
+    transform: scale(.14);
+    opacity: 0;
+    border-radius: 16px;
+    transition:
+        transform .28s cubic-bezier(.2,.85,.25,1),
+        opacity .18s ease,
+        border-radius .28s ease;
+}
+
+.app-window.spanish-transition.spanish-transition-active {
+    transform: scale(1);
+    opacity: 1;
+    border-radius: 0;
+}
+
+.app-window.spanish-transition.spanish-transition-closing {
+    transform: scale(.14);
+    opacity: 0;
+    border-radius: 16px;
+    transition:
+        transform .22s cubic-bezier(.7,.05,.85,.2),
+        opacity .16s ease,
+        border-radius .22s ease;
+}
+
+
+/* =========================
+   SPOTIFY APP OPEN/CLOSE TRANSITION
+   Same tiny iPhone-style launch as Gallery + Español, growing from the dock icon
+========================= */
+.app-window.spotify-transition {
+    transform-origin: 88% 92%;
+    transform: scale(.14);
+    opacity: 0;
+    border-radius: 16px;
+    transition:
+        transform .28s cubic-bezier(.2,.85,.25,1),
+        opacity .18s ease,
+        border-radius .28s ease;
+}
+
+.app-window.spotify-transition.spotify-transition-active {
+    transform: scale(1);
+    opacity: 1;
+    border-radius: 0;
+}
+
+.app-window.spotify-transition.spotify-transition-closing {
+    transform: scale(.14);
+    opacity: 0;
+    border-radius: 16px;
+    transition:
+        transform .22s cubic-bezier(.7,.05,.85,.2),
+        opacity .16s ease,
+        border-radius .22s ease;
+}
+
+/* =========================
+   ESPAÑOL HOME / PRACTICE / WORDS
+========================= */
+.spanish-home{height:100%;overflow-y:auto;padding:4px 2px 18px}
+.spanish-home::-webkit-scrollbar{display:none}
+.spanish-home-hero{text-align:center;padding:10px 0 14px}
+.spanish-home-flag{font-size:25px;margin-bottom:9px}
+.spanish-home-title{color:#587a8d;font-size:13px;font-weight:bold;letter-spacing:.7px}
+.spanish-home-sub{color:#8aa0ad;font-size:6px;margin-top:7px}
+.spanish-stat{border:1px solid rgba(255,255,255,.72);background:rgba(246,255,255,.55);border-radius:14px;padding:13px;margin-bottom:12px;box-shadow:0 5px 0 rgba(100,134,154,.10),inset 0 1px rgba(255,255,255,.8);text-align:center}
+.spanish-stat-big{color:#587a8d;font-size:18px;font-weight:bold}
+.spanish-stat-label{color:#8aa0ad;font-size:6px;margin-top:6px}
+.spanish-home-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+.spanish-home-btn{border:1px solid rgba(255,255,255,.75);background:rgba(230,249,253,.66);color:#64869a;border-radius:11px;padding:13px 7px;font-family:inherit;font-size:6px;box-shadow:0 4px 0 rgba(100,134,154,.12),inset 0 1px rgba(255,255,255,.85);cursor:pointer}
+.spanish-home-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(100,134,154,.12)}
+.spanish-home-btn-icon{display:block;font-size:17px;margin-bottom:7px}
+.spanish-section-title{color:#587a8d;font-size:7px;margin:12px 2px 8px}
+.spanish-mini-progress{height:7px;border-radius:8px;background:rgba(255,255,255,.5);border:1px solid rgba(120,160,180,.2);overflow:hidden}
+.spanish-mini-progress-bar{height:100%;background:linear-gradient(90deg,#9bdce8,#a89ad8);border-radius:8px}
+.spanish-home-note{color:#8aa0ad;font-size:6px;line-height:1.8;text-align:center;margin-top:12px}
+.spanish-practice{height:100%;overflow-y:auto;padding:4px 2px 18px}
+.spanish-practice::-webkit-scrollbar{display:none}
+.spanish-practice-top{text-align:center;color:#587a8d;font-size:9px;font-weight:bold;margin:4px 0 7px}
+.spanish-practice-sub{text-align:center;color:#8aa0ad;font-size:6px;line-height:1.7;margin-bottom:14px}
+.spanish-quiz-card{border:1px solid rgba(255,255,255,.72);background:rgba(246,255,255,.58);border-radius:14px;padding:16px 12px;box-shadow:0 6px 0 rgba(100,134,154,.10),inset 0 1px rgba(255,255,255,.85)}
+.spanish-quiz-number{text-align:center;color:#9aabb4;font-size:5px;margin-bottom:14px}
+.spanish-quiz-question{text-align:center;color:#587a8d;font-size:9px;line-height:1.8;margin-bottom:16px}
+.spanish-quiz-options{display:grid;gap:8px}
+.spanish-quiz-option{width:100%;border:1px solid rgba(255,255,255,.75);background:rgba(230,249,253,.7);color:#64869a;border-radius:9px;padding:10px 7px;font-family:inherit;font-size:6px;cursor:pointer;box-shadow:0 3px 0 rgba(100,134,154,.10)}
+.spanish-quiz-option:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(100,134,154,.10)}
+.spanish-quiz-option.correct{background:rgba(181,229,205,.75);color:#47745d}
+.spanish-quiz-option.wrong{background:rgba(244,199,207,.75);color:#8a5661}
+.spanish-quiz-feedback{text-align:center;min-height:25px;margin-top:12px;color:#668699;font-size:7px;line-height:1.7}
+.spanish-quiz-next{display:block;margin:8px auto 0;border:1px solid rgba(255,255,255,.75);background:rgba(230,249,253,.7);color:#64869a;border-radius:9px;padding:8px 13px;font-family:inherit;font-size:6px;cursor:pointer}
+.spanish-quiz-result{text-align:center;padding-top:28px}
+.spanish-quiz-score{color:#587a8d;font-size:22px;font-weight:bold;margin:15px 0 8px}
+.spanish-words{height:100%;overflow-y:auto;padding:4px 2px 18px}
+.spanish-words::-webkit-scrollbar{display:none}
+.spanish-words-title{text-align:center;color:#587a8d;font-size:10px;font-weight:bold;margin:4px 0 5px}
+.spanish-words-sub{text-align:center;color:#8aa0ad;font-size:6px;margin-bottom:14px}
+.spanish-word-list{display:grid;gap:8px}
+.spanish-word-row{display:flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.72);background:rgba(246,255,255,.58);border-radius:11px;padding:7px;box-shadow:0 4px 0 rgba(100,134,154,.09),inset 0 1px rgba(255,255,255,.8)}
+.spanish-word-row img{width:45px;height:45px;object-fit:cover;border-radius:7px;border:1px solid rgba(255,255,255,.8)}
+.spanish-word-main{color:#587a8d;font-size:7px;font-weight:bold}
+.spanish-word-meaning{color:#8aa0ad;font-size:6px;margin-top:5px}
+.spanish-word-example{color:#668699;font-size:5px;margin-top:5px}
+.spanish-back-home{display:block;margin:12px auto 0;border:1px solid rgba(255,255,255,.75);background:rgba(230,249,253,.65);color:#64869a;border-radius:9px;padding:8px 12px;font-family:inherit;font-size:6px;cursor:pointer}
+
+
+</style>
+</head>
+
+
+<body>
+
+<div class="phone">
+
+
+    <!-- =========================
+         WALLPAPER
+    ========================= -->
+
+    <div class="wallpaper">
+        <div class="pixel-field pixel-field-1"></div>
+        <div class="pixel-field pixel-field-2"></div>
+        <div class="pixel-field pixel-field-3"></div>
+        <div class="pixel-spark spark-1"></div>
+        <div class="pixel-spark spark-2"></div>
+        <div class="pixel-spark spark-3"></div>
+        <div class="pixel-spark spark-4"></div>
+        <div class="pixel-spark spark-5"></div>
+        <div class="pixel-spark spark-6"></div>
+        <div class="pixel-spark spark-7"></div>
+        <div class="pixel-spark spark-8"></div>
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div class="status">
+
+        <span id="clock">
+            00:00
+        </span>
+
+        <span class="status-icons">
+            <span class="cellular" aria-label="Cellular signal">
+                <i></i><i></i><i></i><i></i>
+            </span>
+            <span class="wifi" aria-label="Wi-Fi">
+                <i></i><i></i><i></i>
+            </span>
+            <span class="battery" aria-label="Battery">
+                <span class="battery-body"></span>
+                <span class="battery-tip"></span>
+            </span>
+        </span>
+
+    </div>
+
+
+    <!-- NOTCH -->
+
+    <div class="notch"></div>
+
+
+    <!-- =========================
+         HOME
+    ========================= -->
+
+    <div class="home">
+
+        <div class="widgets">
+
+
+            <div class="widget">
+
+                <div class="widget-title">
+                    TAKVİM
+                </div>
+
+                <div class="calendar-day">
+                    7
+                </div>
+
+                <div class="calendar-text">
+
+                    EKİM<br>
+
+                    ÇARŞAMBA<br>
+
+                    <span style="color:#e6a7bd">
+                        SİNA'NIN DOĞUM GÜNÜ 🎈🎂
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="widget">
+
+                <div class="widget-title">
+                    ŞİMDİ ÇALIYOR
+                </div>
+
+                <div class="music">
+
+                    <div class="album">
+                        ♪
+                    </div>
+
+                    <div class="song">
+
+                        OUR SONG<br>
+
+                        <span style="color:#aaa6d9">
+                            Bengi ♡ Sina
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="music-btn"
+                    onclick="playSong()">
+
+                    ▶ PLAY
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- APPS -->
+
+        <div class="apps">
+
+
+            <!-- SETTINGS -->
+
+            <div class="app static-app">
+
+                <div class="icon settings-icon">
+
+                    <img
+                        src="ayarlar.png"
+                        alt="Ayarlar">
+
+                </div>
+
+                <div class="app-name">
+                    Ayarlar
+                </div>
+
+            </div>
+
+
+            <!-- SAFARI -->
+
+            <div class="app static-app">
+
+                <div class="icon safari-icon">
+
+                    <img
+                        src="safari.png"
+                        alt="Safari">
+
+                </div>
+
+                <div class="app-name">
+                    Safari
+                </div>
+
+            </div>
+
+
+            <!-- GALLERY -->
+
+            <div
+                class="app"
+                onclick="openApp('gallery')">
+
+                <div class="icon gallery">
+
+                    <img
+                        src="gallery-pixel.png"
+                        alt="Galeri">
+
+                </div>
+
+                <div class="app-name">
+                    Galeri
+                </div>
+
+            </div>
+
+
+            <!-- CAMERA -->
+
+            <div
+                class="app"
+                onclick="openApp('camera')">
+
+                <div class="icon camera-icon">
+
+                    <img
+                        src="kamera.png"
+                        alt="Kamera">
+
+                </div>
+
+                <div class="app-name">
+                    Kamera
+                </div>
+
+            </div>
+
+
+            <!-- NOTES (icon only for now) -->
+
+            <div class="app static-app">
+
+                <div class="icon notes">
+                    
+                    <img
+                        src="notlar.png"
+                        alt="Notlar">
+
+                </div>
+
+                <div class="app-name">
+                    Notlar
+                </div>
+
+            </div>
+
+
+            <!-- ESPAÑOL -->
+
+            <div
+                class="app"
+                onclick="openApp('spanish')">
+
+                <div class="icon spanish-icon">
+                    <img
+                        src="espanol.png"
+                        alt="Español">
+                </div>
+
+                <div class="app-name">
+                    Español
+                </div>
+
+            </div>
+
+            <!-- DRESS-UP GAME -->
+            <div
+                class="app"
+                onclick="openApp('dressup')">
+                <div class="icon dressup-icon">S</div>
+                <div class="app-name">Sina's Room</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DOCK
+    ========================= -->
+
+    <div class="dock">
+
+
+        <div
+            class="dock-app"
+            aria-label="Telefon">
+
+            <div class="phone-icon">
+
+                <img
+                    src="telefon.png"
+                    alt="Telefon">
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="dock-app static-app"
+            aria-label="Mesajlar">
+
+            <div class="messages-icon">
+
+                <img
+                    src="messages-pixel.png"
+                    alt="Mesajlar">
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="dock-app"
+            onclick="openApp('music')">
+
+            <div class="spotify-icon">
+
+                <img
+                    src="spotify-pixel.png"
+                    alt="Spotify">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         APP WINDOW
+    ========================= -->
+
+    <div
+        class="app-window"
+        id="app">
+
+
+        <div class="app-header">
+
+            <div
+                class="app-title"
+                id="title">
+
+                App
+
+            </div>
+
+
+            <button
+                class="close"
+                onclick="closeApp()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="content"
+            id="content">
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SINA'S ROOM — DRESS-UP GAME
+         This overlay covers the phone UI while the game is open.
+         ===================================================== -->
+    <div class="game-overlay" id="dressupGame">
+
+        <div class="game-loading" id="gameLoading">
+            <div class="game-loading-title">SINA'S ROOM</div>
+            <div class="loading-bar"><div class="loading-fill"></div></div>
+            <div class="loading-dots">LOADING</div>
+        </div>
+
+        <div class="game-topbar">
+            <button class="game-exit" onclick="exitDressup()" aria-label="Exit">×</button>
+        </div>
+
+        <div class="game-room" id="gameRoom">
+            <img class="room-art" src="oyun/oda-base.png" alt="Sina's room">
+
+            <!-- invisible interaction zones on the room -->
+            <button class="game-hotspot rack-hotspot"
+                    aria-label="Askılık"
+                    onclick="openWardrobe('tops')"></button>
+
+            <div class="room-art-hitbox">
+                <button class="game-hotspot shoe-hotspot"
+                        aria-label="Ayakkabılık"
+                        onclick="openWardrobe('shoes')"></button>
+            </div>
+
+            <div class="game-character" id="gameCharacter">
+                <img class="base" id="sinaBase" src="oyun/sina-base.png" alt="Sina">
+                <img class="blink" id="sinaBlink" src="oyun/sina-blink.png" alt="">
+                <div class="clothing-layer" id="clothingLayer">
+                    <img class="clothing-asset top-clothing-asset"
+                         id="topAssetLayer"
+                         src=""
+                         alt="">
+                    <img class="clothing-asset bottom-clothing-asset"
+                         id="bottomAssetLayer"
+                         src=""
+                         alt="">
+                    <div class="demo-top" id="demoTop"></div>
+                    <div class="demo-bottom" id="demoBottom"></div>
+                    <div class="demo-jacket" id="demoJacket"></div>
+                    <div class="demo-shoe left" id="demoShoeLeft"></div>
+                    <div class="demo-shoe right" id="demoShoeRight"></div>
+                    <div class="demo-accessory" id="demoAccessory"></div>
+                </div>
+            </div>
+
+            <button class="looks-button" onclick="openLooks()">
+                BENGI'S LOOKS
+            </button>
+
+        </div>
+
+        <div class="game-bottombar">
+            <div class="game-hint">◆ CLICK THE RACK TO DRESS SINA<br>◆ CLICK THE SHOE CABINET FOR SHOES & ACCESSORIES</div>
+        </div>
+
+        <div class="game-panel" id="gamePanel">
+            <div class="game-panel-head">
+                <div class="game-panel-title" id="gamePanelTitle">WARDROBE</div>
+                <button class="game-panel-close" onclick="closeWardrobe()">×</button>
+            </div>
+            <div class="game-tabs" id="gameTabs"></div>
+            <div class="item-grid" id="itemGrid"></div>
+        </div>
+    </div>
+
+    <!-- =========================
+         PHOTO VIEWER
+    ========================= -->
+
+    <div
+        class="photo-viewer"
+        id="photoViewer">
+
+        <div class="photo-viewer-header">
+            <button class="photo-back" onclick="closePhotoViewer()">‹</button>
+            <div class="photo-counter" id="photoCounter">1/9</div>
+            <button class="photo-close" onclick="closePhotoViewer()">×</button>
+        </div>
+
+        <div class="photo-main" id="photoMain">
+            <div class="photo-zoom-controls">
+                <button onclick="changePhotoZoom(-0.2)" aria-label="Zoom out">−</button>
+                <button onclick="changePhotoZoom(0.2)" aria-label="Zoom in">+</button>
+            </div>
+        </div>
+
+        <div class="photo-info" id="photoInfo"></div>
+        <div class="photo-viewer-actions" id="photoActions">
+            <button class="photo-action share" onclick="shareCurrentPhoto()">↑ SHARE</button>
+            <div class="photo-center-actions">
+                <button class="photo-action favorite" id="photoFavoriteBtn" onclick="togglePhotoFavorite()">♡ FAV</button>
+                <button class="photo-action" onclick="togglePhotoInfo()">ⓘ INFO</button>
+            </div>
+            <button class="photo-action delete" onclick="deleteCurrentPhoto()">⌫ DELETE</button>
+        </div>
+    </div>
+
+
+    <!-- =========================
+         LOCK SCREEN
+    ========================= -->
+
+    <div
+        class="lock"
+        id="lock">
+
+
+        <div>
+
+            <div
+                class="lock-time"
+                id="lockTime">
+
+                00:00
+
+            </div>
+
+
+            <div class="lock-date">
+
+                7 Ekim Çarşamba
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="unlock"
+            onclick="unlock()">
+
+            AÇMAK İÇİN KAYDIR
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   PHOTO DATA
+========================= */
+
+/*
+   Fotoğrafların sırası burada tutuluyor.
+
+   İleride başka albümler eklediğimizde
+   aynı sistemi her albüm için kullanabiliriz.
+*/
+
+const ISTANBUL_PHOTOS = [
+    'photos/istanbul/istanbul-01.png',
+    'photos/istanbul/istanbul-02.png',
+    'photos/istanbul/istanbul-03.png',
+    'photos/istanbul/istanbul-04.png',
+    'photos/istanbul/istanbul-05.png',
+    'photos/istanbul/istanbul-06.png',
+    'photos/istanbul/istanbul-07.png'
+];
+
+const MOROCCO_PHOTOS = [
+    'photos/morocco/morocco-01.png',
+    'photos/morocco/morocco-02.png',
+    'photos/morocco/morocco-03.png',
+    'photos/morocco/morocco-04.png',
+    'photos/morocco/morocco-05.png',
+    'photos/morocco/morocco-06.png',
+    'photos/morocco/morocco-07.png',
+    'photos/morocco/morocco-08.png',
+    'photos/morocco/morocco-09.png',
+    'photos/morocco/morocco-10.png',
+    'photos/morocco/morocco-11.png'
+];
+
+
+const SPAIN_PHOTOS = [
+    'photos/spain/spain-01.png',
+    'photos/spain/spain-02.png',
+    'photos/spain/spain-03.png',
+    'photos/spain/spain-04.png'
+];
+
+const BODRUM_PHOTOS = [
+    'photos/bodrum/bodrum-01.png',
+    'photos/bodrum/bodrum-02.png',
+    'photos/bodrum/bodrum-03.png',
+    'photos/bodrum/bodrum-04.png'
+];
+
+
+const THAILAND_PHOTOS = [
+    'photos/thailand/thailand-01.png',
+    'photos/thailand/thailand-02.png',
+    'photos/thailand/thailand-03.png',
+    'photos/thailand/thailand-04.png',
+    'photos/thailand/thailand-05.png',
+    'photos/thailand/thailand-06.png',
+    'photos/thailand/thailand-07.png',
+    'photos/thailand/thailand-08.png'
+];
+
+
+const VIETNAM_PHOTOS = [
+    'photos/vietnam/vietnam-01.png',
+    'photos/vietnam/vietnam-02.png',
+    'photos/vietnam/vietnam-03.png',
+    'photos/vietnam/vietnam-04.png',
+    'photos/vietnam/vietnam-05.png',
+    'photos/vietnam/vietnam-06.png',
+    'photos/vietnam/vietnam-07.png',
+    'photos/vietnam/vietnam-08.png',
+    'photos/vietnam/vietnam-09.png',
+    'photos/vietnam/vietnam-10.png',
+    'photos/vietnam/vietnam-11.png',
+    'photos/vietnam/vietnam-12.png'
+];
+
+
+const BALI_PHOTOS = [
+    'photos/bali/bali-01.png',
+    'photos/bali/bali-02.png',
+    'photos/bali/bali-03.png',
+    'photos/bali/bali-04.png',
+    'photos/bali/bali-05.png',
+    'photos/bali/bali-06.png'
+];
+
+
+/* =========================
+   PHOTO VIEWER STATE
+========================= */
+
+let currentPhotoIndex = 0;
+
+let currentPhotoList = MOROCCO_PHOTOS;
+
+/* Dynamic Favorites collection: static album photos + Camera Roll photos. */
+const FAVORITES_PHOTOS = [];
+
+
+/* =========================
+   TOUCH SWIPE STATE
+========================= */
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+let touchEndX = 0;
+let touchEndY = 0;
+
+
+/* =========================
+   CLOCK
+========================= */
+
+function updateClock() {
+
+    const now = new Date();
+
+    const hours =
+        String(now.getHours()).padStart(2,'0');
+
+    const minutes =
+        String(now.getMinutes()).padStart(2,'0');
+
+    const time =
+        hours + ":" + minutes;
+
+    document.getElementById("clock")
+        .innerText = time;
+
+    document.getElementById("lockTime")
+        .innerText = time;
+}
+
+updateClock();
+
+setInterval(updateClock,1000);
+
+
+/* =========================
+   UNLOCK
+========================= */
+
+function unlock() {
+
+    document
+        .getElementById("lock")
+        .classList
+        .add("hidden");
+
+}
+
+
+/* =========================
+   OPEN APP
+========================= */
+
+let currentAppType = null;
+
+function openApp(type) {
+
+    const app =
+        document.getElementById("app");
+
+    const title =
+        document.getElementById("title");
+
+    const content =
+        document.getElementById("content");
+
+    currentAppType = type;
+
+    app.classList.remove("spotify-app");
+    if(type === "music") app.classList.add("spotify-app");
+
+    app.classList.remove(
+        "gallery-transition",
+        "gallery-transition-active",
+        "gallery-transition-closing",
+        "spanish-transition",
+        "spanish-transition-active",
+        "spanish-transition-closing",
+        "spotify-transition",
+        "spotify-transition-active",
+        "spotify-transition-closing"
+    );
+
+    if(type === "gallery") {
+        app.classList.add("gallery-transition");
+    }
+
+    if(type === "spanish") {
+        app.classList.add("spanish-transition");
+    }
+
+    if(type === "music") {
+        app.classList.add("spotify-transition");
+    }
+
+    app.style.display = "flex";
+
+    if(type === "gallery") {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                app.classList.add("gallery-transition-active");
+            });
+        });
+    }
+
+    if(type === "spanish") {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                app.classList.add("spanish-transition-active");
+            });
+        });
+    }
+
+    if(type === "music") {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                app.classList.add("spotify-transition-active");
+            });
+        });
+    }
+
+
+    /* =========================
+       MESSAGES
+    ========================= */
+
+    if(type === "messages") {
+
+        title.innerText =
+            "MESAJLAR";
+
+        content.innerHTML = `
+
+            <div class="message">
+
+                hey birthday boy
+
+            </div>
+
+            <div class="message">
+
+                bugün telefonunu
+                biraz kurcalayabilirsin
+
+            </div>
+
+            <div class="message me">
+
+                ama her şeyi bulabileceğini
+                sanma 👀
+
+            </div>
+
+            <div class="message">
+
+                gallery'e bak mesela.
+
+            </div>
+
+        `;
+    }
+
+
+    /* =========================
+       GALLERY
+    ========================= */
+
+    if(type === "gallery") {
+
+        title.innerText =
+            "GALERİ";
+
+        showGalleryHome();
+
+    }
+
+
+    /* =========================
+       CAMERA
+    ========================= */
+
+    if(type === "camera") {
+
+        title.innerText = "KAMERA";
+
+        content.innerHTML = `
+            <div class="camera-screen">
+                <div class="camera-top">
+                    <span>CAMERA</span>
+                    <span id="cameraRec">● READY</span>
+                </div>
+                <div class="camera-preview" id="cameraPreview">
+                    <video class="camera-live" id="cameraVideo" autoplay playsinline muted></video>
+                    <div class="camera-grid"></div>
+                    <div class="camera-flash" id="cameraFlash"></div>
+                    <div class="camera-permission" id="cameraPermission">
+                        <div class="camera-permission-title">📷 REAL CAMERA</div>
+                        <div class="camera-permission-text">Tap below to let Sina's phone use your actual camera.</div>
+                        <button class="camera-start-button" onclick="startRealCamera()">OPEN CAMERA</button>
+                    </div>
+                    <div class="camera-captured" id="cameraCaptured">
+                        <div class="camera-captured-photo" id="cameraCapturedPhoto">♡</div>
+                        <div class="camera-captured-text">PHOTO SAVED ♡</div>
+                        <button class="camera-view-button" onclick="viewCapturedPhoto()">BACK TO CAMERA</button>
+                    </div>
+                    <canvas id="cameraCanvas" style="display:none"></canvas>
+                </div>
+                <div class="camera-status" id="cameraStatus">camera not started</div>
+                <div class="camera-controls">
+                    <button class="camera-gallery-btn" id="cameraGalleryThumb" onclick="openCameraRollFromCamera()" aria-label="Open Camera Roll"></button>
+                    <button class="camera-shutter" onclick="takeCameraPhoto()" aria-label="Take photo"></button>
+                    <button class="camera-flip-btn" onclick="flipCamera()" aria-label="Switch camera"></button>
+                </div>
+            </div>
+        `;
+        startRealCamera();
+        setTimeout(loadCameraGalleryThumb, 0);
+    }
+
+
+    /* =========================
+       MUSIC
+    ========================= */
+
+    if(type === "music") {
+        title.innerText = "SPOTIFY";
+        content.innerHTML = `
+            <div class="spotify-screen">
+                <div class="spotify-topbar">
+                    <div class="spotify-brand"><div class="spotify-brand-mark"><img src="spotify-pixel.png" alt="Spotify"></div><span>Spotify</span></div>
+                    <button class="spotify-close" onclick="closeApp()" aria-label="Close Spotify">×</button>
+                </div>
+
+                <div class="spotify-greeting">Good afternoon</div>
+                <div class="spotify-chips">
+                    <button class="spotify-chip active">All</button>
+                    <button class="spotify-chip">Music</button>
+                    <button class="spotify-chip">Playlists</button>
+                </div>
+
+                <div class="spotify-quick-grid">
+                    <div class="spotify-quick-card" onclick="toggleSong()">
+                        <div class="spotify-quick-cover"><img src="spotify-pixel.png" alt="Our Song"></div>
+                        <div class="spotify-quick-title">Our Song</div>
+                    </div>
+                    <div class="spotify-quick-card" onclick="toggleSong()">
+                        <div class="spotify-quick-cover">♡</div>
+                        <div class="spotify-quick-title">Bengi &amp; Sina</div>
+                    </div>
+                </div>
+
+                <div class="spotify-section-title">Made for you</div>
+                <div class="spotify-now">
+                    <div class="spotify-now-head">
+                        <div class="spotify-now-label">Your special mix</div>
+                        <div class="spotify-now-more">•••</div>
+                    </div>
+                    <div class="spotify-cover" id="spotifyCover">
+                        <img src="spotify-pixel.png" alt="Our song" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                        <div class="spotify-cover-fallback" style="display:none;">♪</div>
+                    </div>
+                    <div class="spotify-song-meta">
+                        <div class="spotify-song-block">
+                            <div class="spotify-song-title" id="spotifySongTitle">Our Song</div>
+                            <div class="spotify-artist" id="spotifyArtist">Bengi ♡ Sina</div>
+                        </div>
+                        <button class="spotify-like" aria-label="Like">♡</button>
+                    </div>
+                    <div class="spotify-progress"><div class="spotify-progress-fill" id="spotifyProgress"></div></div>
+                    <div class="spotify-times"><span id="spotifyCurrent">0:00</span><span id="spotifyDuration">0:00</span></div>
+                    <div class="spotify-controls">
+                        <button class="spotify-control" onclick="spotifyRestart()">↶</button>
+                        <button class="spotify-control play" id="spotifyPlay" onclick="toggleSong()">▶</button>
+                        <button class="spotify-control" onclick="spotifyMute()">⌁</button>
+                    </div>
+                    <div class="spotify-status" id="spotifyStatus">OUR LITTLE PLAYLIST</div>
+                </div>
+
+                <div class="spotify-section-title">Recently played</div>
+                <div class="spotify-row" onclick="toggleSong()">
+                    <div class="spotify-row-cover"><img src="spotify-pixel.png" alt="Our Song"></div>
+                    <div class="spotify-row-text"><div class="spotify-row-title">Our Song</div><div class="spotify-row-artist">Bengi ♡ Sina • Special playlist</div></div>
+                    <button class="spotify-row-play">▶</button>
+                </div>
+
+                <button class="spotify-add" onclick="document.getElementById('spotifyFileInput').click()">+ ADD SONG FROM DEVICE</button>
+                <input class="spotify-hidden-input" id="spotifyFileInput" type="file" accept="audio/*" onchange="loadSpotifyFile(this.files[0])">
+                <audio id="spotifyAudio" preload="metadata" src="our-song.mp3"></audio>
+            </div>`;
+        setTimeout(initSpotifyPlayer, 0);
+    }
+
+
+    /* =========================
+       NOTES
+    ========================= */
+
+    if(type === "notes") {
+
+        title.innerText =
+            "NOTES";
+
+        content.innerHTML = `
+
+            <div class="note">
+
+                <p>
+                    To Sina,
+                </p>
+
+                <br>
+
+                <p>
+                    bunu yazarken fazla cheesy
+                    olmamaya çalışıyorum.
+                </p>
+
+                <br>
+
+                <p>
+                    Başarılı olup olmadığımı
+                    bilmiyorum.
+                </p>
+
+                <br>
+
+                <p>
+                    — Bengi
+                </p>
+
+            </div>
+
+        `;
+    }
+
+
+    /* =========================
+       DOG
+    ========================= */
+
+    /* =========================
+       ESPAÑOL
+       ========================= */
+
+    if(type === "spanish") {
+
+        title.innerText = "ESPAÑOL";
+
+        const spanishCards = [
+            {image:"photos/spanish/beber.png", word:"BEBER", meaning:"içmek", example:"Yo bebo.", exampleTr:"Ben içerim."},
+            {image:"photos/spanish/tener-hambre.png", word:"TENER HAMBRE", meaning:"acıkmak", example:"Tengo hambre.", exampleTr:"Acıktım."},
+            {image:"photos/spanish/roncar.png", word:"RONCAR", meaning:"horlamak", example:"Yo ronco.", exampleTr:"Ben horlarım."},
+            {image:"photos/spanish/dormir.png", word:"DORMIR", meaning:"uyumak", example:"Yo duermo.", exampleTr:"Ben uyurum."},
+            {image:"photos/spanish/pensar.png", word:"PENSAR", meaning:"düşünmek", example:"Yo pienso.", exampleTr:"Ben düşünürüm."},
+            {image:"photos/spanish/nadar.png", word:"NADAR", meaning:"yüzmek", example:"Yo nado.", exampleTr:"Ben yüzerim."},
+            {image:"photos/spanish/empresario.png", word:"EMPRESARIO", meaning:"iş adamı", example:"Él es empresario.", exampleTr:"O bir iş adamı."}
+        ];
+
+        let spanishIndex = 0;
+        let spanishFlipped = false;
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function spanishHome() {
+            content.innerHTML = `
+                <div class="spanish-home">
+                    <div class="spanish-home-hero">
+                        <div class="spanish-home-flag">🇪🇸</div>
+                        <div class="spanish-home-title">ESPAÑOL</div>
+                        <div class="spanish-home-sub">A1 · vamos a aprender</div>
+                    </div>
+
+                    <div class="spanish-stat">
+                        <div class="spanish-stat-big">${spanishCards.length}</div>
+                        <div class="spanish-stat-label">WORDS TO LEARN</div>
+                    </div>
+
+                    <div class="spanish-home-buttons">
+                        <button class="spanish-home-btn" onclick="startSpanishLearn()">
+                            <span class="spanish-home-btn-icon">🧠</span>
+                            LEARN
+                        </button>
+                        <button class="spanish-home-btn" onclick="startSpanishPractice()">
+                            <span class="spanish-home-btn-icon">🎮</span>
+                            PRACTICE
+                        </button>
+                    </div>
+
+                    <div class="spanish-section-title">YOUR PROGRESS</div>
+                    <div class="spanish-mini-progress">
+                        <div class="spanish-mini-progress-bar" style="width:0%"></div>
+                    </div>
+                    <div class="spanish-home-note">7 palabras waiting for you ♡</div>
+
+                    <button class="spanish-home-btn" style="width:100%;margin-top:12px" onclick="showSpanishWords()">
+                        <span class="spanish-home-btn-icon">📖</span>
+                        MY WORDS
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderSpanishCard() {
+            const card = spanishCards[spanishIndex];
+
+            content.innerHTML = `
+                <div class="spanish-page">
+                    <div class="spanish-intro">vamos</div>
+                    <div class="spanish-progress">
+                        <div class="spanish-progress-bar" style="width:${((spanishIndex+1)/spanishCards.length)*100}%"></div>
+                    </div>
+                    <div class="spanish-stage">
+                        <button class="spanish-card ${spanishFlipped ? "flipped" : ""}" onclick="flipSpanishCard()">
+                            <div class="spanish-card-inner">
+                                <div class="spanish-face spanish-front">
+                                    <div class="spanish-photo-frame">
+                                        <img src="${card.image}" alt="${card.meaning}">
+                                    </div>
+                                    <div class="spanish-word">${card.word}</div>
+                                    <div class="spanish-meaning">${card.meaning}</div>
+                                    <div class="spanish-tap">DOKUN & ÇEVİR ↻</div>
+                                </div>
+                                <div class="spanish-face spanish-back">
+                                    <div class="spanish-big">${card.word}</div>
+                                    <div class="spanish-tr">${card.meaning}</div>
+                                    <div class="spanish-divider"></div>
+                                    <div class="spanish-example">${card.example}</div>
+                                    <div class="spanish-example-tr">${card.exampleTr}</div>
+                                    <div class="spanish-hint">DOKUN & GERİ DÖN ↻</div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="spanish-nav">
+                        <button onclick="previousSpanishCard()" ${spanishIndex===0 ? "disabled":""}>← ÖNCEKİ</button>
+                        <div class="spanish-counter">${spanishIndex+1} / ${spanishCards.length}</div>
+                        <button onclick="nextSpanishCard()">${spanishIndex===spanishCards.length-1 ? "BİTİR ✓":"SONRAKİ →"}</button>
+                    </div>
+                    <button class="spanish-back-home" onclick="spanishHome()">← ESPAÑOL ANA SAYFA</button>
+                </div>
+            `;
+        }
+
+        window.startSpanishLearn = function() {
+            spanishIndex=0;
+            spanishFlipped=false;
+            renderSpanishCard();
+        };
+
+        window.spanishHome = spanishHome;
+
+        window.flipSpanishCard = function() {
+            spanishFlipped = !spanishFlipped;
+            const card = document.querySelector(".spanish-card");
+            if(card) card.classList.toggle("flipped", spanishFlipped);
+        };
+
+        window.nextSpanishCard = function() {
+            if(spanishIndex === spanishCards.length-1) {
+                content.innerHTML = `
+                    <div class="spanish-page">
+                        <div class="spanish-done">
+                            <div class="spanish-done-title">¡MUY BIEN! 🇪🇸</div>
+                            <div class="spanish-done-text">${spanishCards.length} palabras aprendidas ♡<br>${spanishCards.length} kelime öğrendin.</div>
+                            <div class="spanish-thumbs">${spanishCards.map(card => `<img class="spanish-thumb" src="${card.image}" alt="">`).join("")}</div>
+                            <button class="spanish-review" onclick="restartSpanish()">↻ TEKRAR ÇALIŞ</button>
+                            <button class="spanish-back-home" onclick="spanishHome()">← ESPAÑOL ANA SAYFA</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            spanishIndex++;
+            spanishFlipped=false;
+            renderSpanishCard();
+        };
+
+        window.previousSpanishCard = function() {
+            if(spanishIndex===0) return;
+            spanishIndex--;
+            spanishFlipped=false;
+            renderSpanishCard();
+        };
+
+        window.restartSpanish = function() {
+            spanishIndex=0;
+            spanishFlipped=false;
+            renderSpanishCard();
+        };
+
+        window.showSpanishWords = function() {
+            content.innerHTML = `
+                <div class="spanish-words">
+                    <div class="spanish-words-title">MY WORDS 📖</div>
+                    <div class="spanish-words-sub">${spanishCards.length} palabras</div>
+                    <div class="spanish-word-list">
+                        ${spanishCards.map(card => `
+                            <div class="spanish-word-row">
+                                <img src="${card.image}" alt="">
+                                <div>
+                                    <div class="spanish-word-main">${card.word}</div>
+                                    <div class="spanish-word-meaning">${card.meaning}</div>
+                                    <div class="spanish-word-example">${card.example}</div>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <button class="spanish-back-home" onclick="spanishHome()">← ESPAÑOL ANA SAYFA</button>
+                </div>
+            `;
+        };
+
+        window.startSpanishPractice = function() {
+            quizIndex=0;
+            quizScore=0;
+            quizAnswered=false;
+            renderSpanishQuiz();
+        };
+
+        function renderSpanishQuiz() {
+            if(quizIndex >= 3) {
+                content.innerHTML = `
+                    <div class="spanish-practice">
+                        <div class="spanish-quiz-result">
+                            <div class="spanish-practice-top">¡MUY BIEN! 🇪🇸</div>
+                            <div class="spanish-quiz-score">${quizScore} / 3</div>
+                            <div class="spanish-practice-sub">Mini challenge complete ♡</div>
+                            <button class="spanish-quiz-next" onclick="startSpanishPractice()">↻ TRY AGAIN</button>
+                            <button class="spanish-back-home" onclick="spanishHome()">← ESPAÑOL ANA SAYFA</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const card = spanishCards[(quizIndex * 2 + 1) % spanishCards.length];
+            const pool = spanishCards.filter(c => c.word !== card.word);
+            const wrong1 = pool[(quizIndex * 2) % pool.length];
+            const wrong2 = pool[(quizIndex * 2 + 1) % pool.length];
+            const options = [card, wrong1, wrong2].sort(() => Math.random() - .5);
+            quizAnswered=false;
+
+            content.innerHTML = `
+                <div class="spanish-practice">
+                    <div class="spanish-practice-top">PRACTICE 🎮</div>
+                    <div class="spanish-practice-sub">3 questions · choose the correct meaning</div>
+                    <div class="spanish-quiz-card">
+                        <div class="spanish-quiz-number">${quizIndex+1} / 3</div>
+                        <div class="spanish-quiz-question">¿Qué significa<br><b>${card.word}</b>?</div>
+                        <div class="spanish-quiz-options">
+                            ${options.map((option,i) => `<button class="spanish-quiz-option" onclick="answerSpanishQuiz(this, ${option.word===card.word})">${option.meaning}</button>`).join("")}
+                        </div>
+                        <div class="spanish-quiz-feedback" id="spanishQuizFeedback"></div>
+                        <button class="spanish-quiz-next" id="spanishQuizNext" style="display:none" onclick="nextSpanishQuiz()">SONRAKİ →</button>
+                    </div>
+                    <button class="spanish-back-home" onclick="spanishHome()">← ESPAÑOL ANA SAYFA</button>
+                </div>
+            `;
+        }
+
+        window.answerSpanishQuiz = function(button, isCorrect) {
+            if(quizAnswered) return;
+            quizAnswered=true;
+            const buttons=document.querySelectorAll('.spanish-quiz-option');
+            buttons.forEach(b=>b.disabled=true);
+            if(isCorrect) {
+                button.classList.add('correct');
+                quizScore++;
+                document.getElementById('spanishQuizFeedback').innerText='✨ ¡CORRECTO!';
+            } else {
+                button.classList.add('wrong');
+                document.getElementById('spanishQuizFeedback').innerText='💭 Casi... review this word.';
+                buttons.forEach(b=>{ if(b.innerText === spanishCards[(quizIndex * 2 + 1) % spanishCards.length].meaning) b.classList.add('correct'); });
+            }
+            document.getElementById('spanishQuizNext').style.display='block';
+        };
+
+        window.nextSpanishQuiz = function() {
+            quizIndex++;
+            renderSpanishQuiz();
+        };
+
+        renderSpanishQuizHome();
+
+        function renderSpanishQuizHome() {
+            spanishHome();
+        }
+    }
+
+    if(type === "dog") {
+
+        title.innerText =
+            "UNKNOWN";
+
+        content.innerHTML = `
+
+            <div class="dog-card">
+
+                <div class="big-dog">
+                    🐕
+                </div>
+
+                <p>
+                    this app is currently unavailable.
+                </p>
+
+                <br>
+
+                <p style="color:#aaa6d9">
+                    maybe you know why.
+                </p>
+
+            </div>
+
+        `;
+    }
+
+
+    if(type === "dressup") {
+        openDressup();
+    }
+
+}
+
+
+/* =========================
+   GALLERY HOME
+========================= */
+
+function refreshCameraPhotosFromStorage(){
+    try{
+        const stored=JSON.parse(localStorage.getItem("sinaCameraPhotos") || "[]");
+        if(Array.isArray(stored)){
+            cameraPhotos=stored.map(item => typeof item === "string"
+                ? {src:item, originalSrc:item, createdAt:null, location:null, favorite:false, edited:false}
+                : {favorite:false, edited:false, ...item});
+        }
+    }catch(e){}
+    return cameraPhotos;
+}
+
+function showGalleryHome() {
+
+    refreshCameraPhotosFromStorage();
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="gallery-tabs">
+
+            <button
+                class="gallery-tab"
+                onclick="showAllPhotos()">
+
+                TÜM FOTOĞRAFLAR
+
+            </button>
+
+            <button
+                class="gallery-tab active">
+
+                ALBÜMLER
+
+            </button>
+
+        </div>
+
+
+        <div class="album-grid">
+
+
+            <!-- ISTANBUL -->
+
+            <div
+                class="album-card"
+                onclick="openIstanbul()">
+
+                <div class="album-cover">
+
+                    <img
+                        src="photos/istanbul/istanbul-01.png"
+                        alt="Istanbul">
+
+                </div>
+
+                <div class="album-name">
+                    ISTANBUL
+                </div>
+
+                <div class="album-count">
+                    7 FOTOĞRAF
+                </div>
+
+            </div>
+
+
+            <!-- MOROCCO -->
+
+            <div
+                class="album-card"
+                onclick="openMorocco()">
+
+                <div class="album-cover">
+
+                    <img
+                        src="photos/morocco/morocco-01.png"
+                        alt="Morocco">
+
+                </div>
+
+                <div class="album-name">
+                    MOROCCO
+                </div>
+
+                <div class="album-count">
+                    11 FOTOĞRAF
+                </div>
+
+            </div>
+
+
+            <!-- SPAIN -->
+
+            <div
+                class="album-card"
+                onclick="openSpain()">
+
+                <div class="album-cover">
+
+                     <img
+                         src="photos/spain/spain-01.png"
+                         alt="Spain">
+
+                </div>
+
+                <div class="album-name">
+                    SPAIN
+                </div>
+
+                <div class="album-count">
+                    4 FOTOĞRAF
+                </div>
+
+            </div>
+
+
+            <!-- BODRUM -->
+
+            <div
+                class="album-card"
+                onclick="openBodrum()"> 
+                
+                <div class="album-cover">
+
+                    <img
+                        src="photos/bodrum/bodrum-01.png"
+                        alt="Bodrum">
+
+                </div>
+
+                <div class="album-name">
+                    BODRUM
+                </div>
+
+                <div class="album-count">
+                    4 FOTOĞRAF
+                </div>
+
+            </div>
+
+
+
+            <!-- THAILAND -->
+
+            <div
+                class="album-card"
+                onclick="openThailand()">
+
+                <div class="album-cover">
+
+                    <img
+                        src="photos/thailand/thailand-01.png"
+                        alt="Thailand">
+
+                </div>
+
+                <div class="album-name">
+                    THAILAND
+                </div>
+
+                <div class="album-count">
+                    8 FOTOĞRAF
+                </div>
+
+            </div>
+
+
+            <!-- VIETNAM -->
+
+            <div
+                class="album-card"
+                onclick="openVietnam()">
+
+                <div class="album-cover">
+
+                    <img
+                        src="photos/vietnam/vietnam-01.png"
+                        alt="Vietnam">
+
+                </div>
+
+                <div class="album-name">
+                    VIETNAM
+                </div>
+
+                <div class="album-count">
+                    12 FOTOĞRAF
+                </div>
+
+            </div>
+
+
+            <!-- BALI -->
+
+            <div
+                class="album-card"
+                onclick="openBali()">
+
+                <div class="album-cover">
+
+                    <img
+                        src="photos/bali/bali-01.png"
+                        alt="Bali">
+
+                </div>
+
+                <div class="album-name">
+                    BALI
+                </div>
+
+                <div class="album-count">
+                    6 FOTOĞRAF
+                </div>
+
+            </div>
+
+
+            <!-- CAMERA ROLL -->
+
+            <div class="album-card" onclick="showCameraRoll()">
+                <div class="album-cover">
+                    ${cameraPhotos.length ? `<img src="${(typeof cameraPhotos[0] === "string" ? cameraPhotos[0] : cameraPhotos[0].src)}" alt="Camera Roll">` : `<div class="album-placeholder">📷</div>`}
+                </div>
+                <div class="album-name">CAMERA ROLL</div>
+                <div class="album-count">${cameraPhotos.length} FOTOĞRAF</div>
+            </div>
+
+
+            <!-- FAVORITES -->
+
+            <div class="album-card" onclick="showFavoritesAlbum()">
+
+                <div class="album-cover">
+                    ${
+                        (() => {
+                            refreshFavorites();
+                            const first=FAVORITES_PHOTOS[0];
+                            return first
+                                ? `<img src="${first.src}" alt="Favorites">`
+                                : `<div class="album-placeholder">♡</div>`;
+                        })()
+                    }
+                </div>
+
+                <div class="album-name">
+                    FAVORITES
+                </div>
+
+                <div class="album-count">
+                    ${FAVORITES_PHOTOS.length} FOTOĞRAF
+                </div>
+
+            </div>
+
+
+        </div>
+    `;
+}
+
+
+/* =========================
+   FAVORITES ALBUM
+========================= */
+
+function showFavoritesAlbum(){
+    refreshFavorites();
+
+    const content=document.getElementById("content");
+    if(!content) return;
+
+    content.innerHTML=`
+        <div class="gallery-tabs">
+            <button class="gallery-tab" onclick="showGalleryHome()">ALBÜMLER</button>
+            <button class="gallery-tab" onclick="showAllPhotos()">TÜM FOTOĞRAFLAR</button>
+        </div>
+
+        <div style="font-size:7px;color:#5f95a5;margin:8px 0 12px;">
+            ${FAVORITES_PHOTOS.length} FOTOĞRAF
+        </div>
+
+        <div class="gallery-grid">
+            ${FAVORITES_PHOTOS.length
+                ? FAVORITES_PHOTOS.map((item,i)=>`
+                    <div class="gallery-item" onclick="openPhoto(FAVORITES_PHOTOS, ${i})">
+                        <div class="gallery-image" style="position:relative;">
+                            <img src="${item.src}" alt="Favorite photo">
+                            <div class="camera-roll-badge">♥</div>
+                        </div>
+                    </div>
+                `).join("")
+                : `<div style="grid-column:1/-1;text-align:center;padding:35px 10px;color:#5f95a5;font-size:6px;">
+                    Henüz favori fotoğraf yok ♡<br><br>
+                    Bir fotoğraf açıp FAV butonuna bas!
+                </div>`
+            }
+        </div>`;
+}
+
+/* =========================
+   ALL PHOTOS
+========================= */
+
+function showAllPhotos() {
+
+    refreshCameraPhotosFromStorage();
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="gallery-tabs">
+
+            <button
+                class="gallery-tab active">
+
+                ALL PHOTOS
+
+            </button>
+
+            <button
+                class="gallery-tab"
+                onclick="showGalleryHome()">
+
+                ALBUMS
+
+            </button>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+            ${cameraPhotos.length ? cameraPhotos.map((item,i)=>`<div class="gallery-item" onclick="openPhoto(cameraPhotos, ${i})"><div class="gallery-image"><img src="${typeof item === "string" ? item : item.src}" alt="Camera photo"></div></div>`).join("") : ""}
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 0)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-01.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 1)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-02.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 2)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-03.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 3)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-04.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 4)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-05.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 5)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-06.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 6)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-07.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 7)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-08.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 8)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-09.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 9)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-10.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 10)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-11.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+        
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 0)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-01.png"
+                        alt="Spain">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 1)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-02.png"
+                        alt="Spain">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 2)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-03.png"
+                        alt="Spain">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 3)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-04.png"
+                        alt="Spain">
+  
+                </div>
+
+             </div>
+
+
+             <div
+                 class="gallery-item"
+                 onclick="openPhoto(BODRUM_PHOTOS, 0)">
+
+                 <div class="gallery-image">
+
+                     <img
+                         src="photos/bodrum/bodrum-01.png"
+                         alt="Bodrum">
+
+                 </div>
+
+             </div>
+
+
+             <div
+                 class="gallery-item"
+                 onclick="openPhoto(BODRUM_PHOTOS, 1)">
+
+                 <div class="gallery-image">
+
+                     <img
+                         src="photos/bodrum/bodrum-02.png"
+                         alt="Bodrum">
+ 
+                 </div>
+
+             </div>
+
+
+             <div
+                 class="gallery-item"
+                 onclick="openPhoto(BODRUM_PHOTOS, 2)">
+
+                 <div class="gallery-image">
+
+                     <img
+                         src="photos/bodrum/bodrum-03.png"
+                         alt="Bodrum">
+
+                 </div>
+
+             </div>
+
+             <div
+                 class="gallery-item"
+                 onclick="openPhoto(BODRUM_PHOTOS, 3)">
+      
+                 <div class="gallery-image">
+
+                     <img
+                         src="photos/bodrum/bodrum-04.png"
+                         alt="Bodrum">
+
+                 </div>
+
+             </div>
+
+
+            <!-- ISTANBUL 01 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 0)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/istanbul/istanbul-01.png"
+                        alt="Istanbul">
+                </div>
+
+            </div>
+
+
+            <!-- ISTANBUL 02 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 1)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/istanbul/istanbul-02.png"
+                        alt="Istanbul">
+                </div>
+
+            </div>
+
+
+            <!-- ISTANBUL 03 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 2)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/istanbul/istanbul-03.png"
+                        alt="Istanbul">
+                </div>
+
+            </div>
+
+
+            <!-- ISTANBUL 04 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 3)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/istanbul/istanbul-04.png"
+                        alt="Istanbul">
+                </div>
+
+            </div>
+
+
+            <!-- ISTANBUL 05 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 4)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/istanbul/istanbul-05.png"
+                        alt="Istanbul">
+                </div>
+
+            </div>
+
+
+            <!-- ISTANBUL 06 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 5)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/istanbul/istanbul-06.png"
+                        alt="Istanbul">
+                </div>
+
+            </div>
+
+
+            <!-- ISTANBUL 07 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 6)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/istanbul/istanbul-07.png"
+                        alt="Istanbul">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 01 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 0)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-01.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 02 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 1)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-02.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 03 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 2)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-03.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 04 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 3)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-04.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 05 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 4)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-05.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 06 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 5)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-06.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 07 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 6)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-07.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- THAILAND 08 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 7)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/thailand/thailand-08.png"
+                        alt="Thailand">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 01 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 0)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-01.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 02 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 1)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-02.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 03 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 2)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-03.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 04 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 3)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-04.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 05 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 4)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-05.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 06 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 5)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-06.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* =========================
+   BALI ALBUM
+========================= */
+
+function openBali() {
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="album-view-header">
+
+            <button
+                class="album-back"
+                onclick="showGalleryHome()">
+
+                ‹
+
+            </button>
+
+            <div class="album-view-title">
+                BALI
+            </div>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <!-- BALI 01 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 0)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-01.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 02 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 1)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-02.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 03 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 2)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-03.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 04 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 3)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-04.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 05 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 4)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-05.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+            <!-- BALI 06 -->
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BALI_PHOTOS, 5)">
+
+                <div class="gallery-image">
+                    <img
+                        src="photos/bali/bali-06.png"
+                        alt="Bali">
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+
+/* =========================
+   MOROCCO ALBUM
+========================= */
+
+function openMorocco() {
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="album-view-header">
+
+            <button
+                class="album-back"
+                onclick="showGalleryHome()">
+
+                ‹
+
+            </button>
+
+            <div class="album-view-title">
+                MOROCCO
+            </div>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 0)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-01.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 1)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-02.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 2)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-03.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 3)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-04.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 4)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-05.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 5)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-06.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 6)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-07.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 7)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-08.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 8)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-09.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 9)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-10.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(MOROCCO_PHOTOS, 10)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/morocco/morocco-11.png"
+                        alt="Morocco">
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+
+/* =========================
+   ISTANBUL ALBUM
+========================= */
+
+function openIstanbul() {
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="album-view-header">
+
+            <button
+                class="album-back"
+                onclick="showGalleryHome()">
+
+                ‹
+
+            </button>
+
+            <div class="album-view-title">
+                ISTANBUL
+            </div>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 0)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/istanbul/istanbul-01.png"
+                        alt="Istanbul">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 1)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/istanbul/istanbul-02.png"
+                        alt="Istanbul">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 2)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/istanbul/istanbul-03.png"
+                        alt="Istanbul">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 3)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/istanbul/istanbul-04.png"
+                        alt="Istanbul">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 4)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/istanbul/istanbul-05.png"
+                        alt="Istanbul">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 5)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/istanbul/istanbul-06.png"
+                        alt="Istanbul">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(ISTANBUL_PHOTOS, 6)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/istanbul/istanbul-07.png"
+                        alt="Istanbul">
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+
+/* =========================
+   THAILAND ALBUM
+========================= */
+
+function openThailand() {
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="album-view-header">
+
+            <button
+                class="album-back"
+                onclick="showGalleryHome()">
+
+                ‹
+
+            </button>
+
+            <div class="album-view-title">
+                THAILAND
+            </div>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 0)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-01.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 1)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-02.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 2)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-03.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 3)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-04.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 4)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-05.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 5)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-06.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 6)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-07.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(THAILAND_PHOTOS, 7)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/thailand/thailand-08.png"
+                        alt="Thailand">
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+/* =========================
+   VIETNAM ALBUM
+========================= */
+
+function openVietnam() {
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="album-view-header">
+
+            <button
+                class="album-back"
+                onclick="showGalleryHome()">
+
+                ‹
+
+            </button>
+
+            <div class="album-view-title">
+                VIETNAM
+            </div>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 0)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-01.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 1)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-02.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 2)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-03.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 3)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-04.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 4)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-05.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 5)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-06.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 6)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-07.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 7)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-08.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 8)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-09.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 9)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-10.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 10)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-11.png" alt="Vietnam">
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="openPhoto(VIETNAM_PHOTOS, 11)">
+                <div class="gallery-image">
+                    <img src="photos/vietnam/vietnam-12.png" alt="Vietnam">
+                </div>
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+
+/* =========================
+   SPAIN ALBUM
+========================= */
+
+function openSpain() {
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="album-view-header">
+
+            <button
+                class="album-back"
+                onclick="showGalleryHome()">
+
+                ‹
+
+            </button>
+
+            <div class="album-view-title">
+                SPAIN
+            </div>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 0)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-01.png"
+                        alt="Spain">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 1)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-02.png"
+                        alt="Spain">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 2)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-03.png"
+                        alt="Spain">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(SPAIN_PHOTOS, 3)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/spain/spain-04.png"
+                        alt="Spain">
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+/* =========================
+   BODRUM ALBUM
+========================= */
+
+function openBodrum() {
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+
+        <div class="album-view-header">
+
+            <button
+                class="album-back"
+                onclick="showGalleryHome()">
+
+                ‹
+
+            </button>
+
+            <div class="album-view-title">
+                BODRUM
+            </div>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BODRUM_PHOTOS, 0)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/bodrum/bodrum-01.png"
+                        alt="Bodrum">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BODRUM_PHOTOS, 1)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/bodrum/bodrum-02.png"
+                        alt="Bodrum">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BODRUM_PHOTOS, 2)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/bodrum/bodrum-03.png"
+                        alt="Bodrum">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="gallery-item"
+                onclick="openPhoto(BODRUM_PHOTOS, 3)">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="photos/bodrum/bodrum-04.png"
+                        alt="Bodrum">
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+/* =========================
+   OPEN PHOTO
+========================= */
+
+function galleryMetaStore(){
+    try { return JSON.parse(localStorage.getItem("sinaGalleryMeta") || "{}"); }
+    catch(e){ return {}; }
+}
+
+function saveGalleryMeta(meta){
+    try { localStorage.setItem("sinaGalleryMeta", JSON.stringify(meta)); } catch(e){}
+}
+
+function photoKey(src){ return String(src || ""); }
+
+function getStaticPhotoMeta(src){
+    const meta=galleryMetaStore();
+    return meta[photoKey(src)] || {favorite:false, hidden:false};
+}
+
+function setStaticPhotoMeta(src, patch){
+    const meta=galleryMetaStore();
+    const key=photoKey(src);
+    meta[key]={favorite:false,hidden:false,...(meta[key]||{}),...patch};
+    saveGalleryMeta(meta);
+}
+
+function isPhotoHidden(src){ return !!getStaticPhotoMeta(src).hidden; }
+function isPhotoFavorite(src){ return !!getStaticPhotoMeta(src).favorite; }
+
+function isFavoritesCollection(list){
+    return list === FAVORITES_PHOTOS;
+}
+
+function refreshFavorites(){
+    FAVORITES_PHOTOS.length = 0;
+
+    // Camera Roll favorites: keep the original Camera Roll item intact.
+    refreshCameraPhotosFromStorage();
+    cameraPhotos.forEach(item => {
+        const photo = typeof item === "string"
+            ? {src:item, favorite:false}
+            : item;
+        if(photo && photo.src && photo.favorite){
+            FAVORITES_PHOTOS.push({
+                src: photo.src,
+                kind: "camera",
+                cameraItem: photo
+            });
+        }
+    });
+
+    // Static album favorites are additive: favoriting NEVER removes them
+    // from their original album.
+    const staticLists=[
+        MOROCCO_PHOTOS, SPAIN_PHOTOS, BODRUM_PHOTOS, ISTANBUL_PHOTOS,
+        THAILAND_PHOTOS, VIETNAM_PHOTOS, BALI_PHOTOS
+    ];
+
+    staticLists.forEach(list=>{
+        (list || []).forEach(src=>{
+            if(src && !isPhotoHidden(src) && isPhotoFavorite(src)){
+                FAVORITES_PHOTOS.push({src, kind:"static", sourceList:list});
+            }
+        });
+    });
+
+    return FAVORITES_PHOTOS;
+}
+
+function visiblePhotoList(list){
+    if(list===cameraPhotos) return cameraPhotos;
+    if(isFavoritesCollection(list)){
+        return list;
+    }
+    return (list || []).filter(src => !isPhotoHidden(src));
+}
+
+function photoAlbumName(list){
+    if(isFavoritesCollection(list)) return "FAVORITES";
+    if(list===MOROCCO_PHOTOS) return "MOROCCO";
+    if(list===SPAIN_PHOTOS) return "SPAIN";
+    if(list===BODRUM_PHOTOS) return "BODRUM";
+    if(list===ISTANBUL_PHOTOS) return "ISTANBUL";
+    if(list===THAILAND_PHOTOS) return "THAILAND";
+    if(list===VIETNAM_PHOTOS) return "VIETNAM";
+    if(list===BALI_PHOTOS) return "BALI";
+    return "GALLERY";
+}
+
+function openPhoto(photoList, index) {
+    const original=photoList && photoList[index];
+    const list=visiblePhotoList(photoList);
+    if(!list.length) return;
+
+    currentPhotoList=list;
+    currentPhotoIndex=Math.max(0, original ? list.indexOf(original) : index);
+    if(currentPhotoIndex<0) currentPhotoIndex=Math.min(index,list.length-1);
+
+    const viewer=document.getElementById("photoViewer");
+    viewer.classList.add("active");
+    renderCurrentPhoto();
+}
+
+function renderCurrentPhoto(direction = null) {
+    const main=document.getElementById("photoMain");
+    const counter=document.getElementById("photoCounter");
+    const info=document.getElementById("photoInfo");
+    const favBtn=document.getElementById("photoFavoriteBtn");
+
+    const raw=currentPhotoList[currentPhotoIndex];
+    const isCamera=Array.isArray(currentPhotoList) && currentPhotoList===cameraPhotos;
+    const isFavorites=isFavoritesCollection(currentPhotoList);
+
+    let item;
+    if(isFavorites){
+        item = raw?.kind === "camera"
+            ? normalizeCameraPhoto(raw.cameraItem)
+            : {src:raw?.src, ...getStaticPhotoMeta(raw?.src)};
+    } else {
+        item=isCamera ? normalizeCameraPhoto(raw) : {src:raw, ...getStaticPhotoMeta(raw)};
+        if(isCamera && raw!==item) currentPhotoList[currentPhotoIndex]=item;
+    }
+    counter.innerText=`${currentPhotoIndex + 1}/${currentPhotoList.length}`;
+
+    main.classList.remove("swipe-left","swipe-right","zoomed");
+    main.dataset.zoom="1";
+    main.innerHTML=`<img src="${item.src}" alt="Photo" ondblclick="togglePhotoZoom">\n        <div class="photo-zoom-controls"><button onclick="changePhotoZoom(-0.2)">−</button><button onclick="changePhotoZoom(0.2)">+</button></div>`;
+
+    if(info){ info.classList.remove("active"); info.innerHTML=""; }
+    if(favBtn){
+        favBtn.classList.toggle("active", !!item.favorite);
+        favBtn.innerText=item.favorite ? "♥ FAV" : "♡ FAV";
+    }
+
+    if(direction){
+        requestAnimationFrame(()=>{
+            main.classList.add(direction==="next" ? "swipe-left" : "swipe-right");
+            setTimeout(()=>main.classList.remove("swipe-left","swipe-right"),180);
+        });
+    }
+}
+
+function normalizeCameraPhoto(item){
+    if(typeof item==="string"){
+        const converted={src:item,originalSrc:item,createdAt:null,location:null,favorite:false,edited:false};
+        const idx=cameraPhotos.indexOf(item);
+        if(idx>=0) cameraPhotos[idx]=converted;
+        return converted;
+    }
+    if(!item.originalSrc) item.originalSrc=item.src;
+    return item;
+}
+
+function currentPhotoItem(){
+    const raw=currentPhotoList[currentPhotoIndex];
+    if(raw==null) return null;
+    if(currentPhotoList===cameraPhotos) return normalizeCameraPhoto(raw);
+    if(isFavoritesCollection(currentPhotoList)){
+        return raw?.kind === "camera"
+            ? normalizeCameraPhoto(raw.cameraItem)
+            : {src:raw?.src,...getStaticPhotoMeta(raw?.src)};
+    }
+    return {src:raw,...getStaticPhotoMeta(raw)};
+}
+
+function formatPhotoDate(iso){
+    if(!iso) return "Tarih bilgisi yok";
+    const d=new Date(iso);
+    if(Number.isNaN(d.getTime())) return "Tarih bilgisi yok";
+    return new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(d);
+}
+
+function togglePhotoInfo(){
+    const item=currentPhotoItem();
+    const info=document.getElementById("photoInfo");
+    if(!item || !info) return;
+    if(info.classList.contains("active")){ info.classList.remove("active"); return; }
+
+    const isCamera=currentPhotoList===cameraPhotos ||
+        (isFavoritesCollection(currentPhotoList) && currentPhotoList[currentPhotoIndex]?.kind==="camera");
+    let locationText="Konum bilgisi yok";
+    if(item.location){
+        locationText=`${item.location.latitude}, ${item.location.longitude}`;
+        if(item.location.accuracy) locationText+=` · ±${item.location.accuracy} m`;
+    } else if(!isCamera){
+        locationText=`${photoAlbumName(currentPhotoList)} albümü · GPS kaydı yok`;
+    } else if(!navigator.geolocation){
+        locationText="Bu tarayıcı konum erişimini desteklemiyor";
+    } else {
+        locationText="Konum izni verilmedi / konum kaydedilmedi";
+    }
+
+    const dateText=isCamera ? formatPhotoDate(item.createdAt) : "Orijinal tarih bilgisi yok";
+    const sourceText=isCamera ? "Camera Roll · Sina's iPhone" : `Albüm · ${photoAlbumName(currentPhotoList)}`;
+    const fileText=(item.src||"").split("/").pop() || "Photo";
+
+    info.innerHTML=`<strong>${dateText}</strong><br>📱 ${sourceText}<br>🖼 ${fileText}<br>📍 ${locationText}${item.edited ? "<br>✦ Düzenlendi" : ""}`;
+    info.classList.add("active");
+}
+
+function togglePhotoFavorite(){
+    const item=currentPhotoItem();
+    if(!item || !item.src) return;
+
+    const nextFavorite=!Boolean(item.favorite);
+    const isCameraList=currentPhotoList===cameraPhotos;
+    const isFavList=isFavoritesCollection(currentPhotoList);
+
+    // Camera Roll: update the underlying camera item, but DO NOT alter the
+    // current album/list. The photo stays in Camera Roll and is also copied
+    // into Favorites when favorited.
+    if(isCameraList || (isFavList && currentPhotoList[currentPhotoIndex]?.kind==="camera")){
+        const cameraItem=cameraPhotos.find(photo =>
+            (typeof photo === "string" ? photo : photo?.src) === item.src
+        );
+
+        if(cameraItem){
+            if(typeof cameraItem === "string"){
+                const index=cameraPhotos.indexOf(cameraItem);
+                cameraPhotos[index]={
+                    src:cameraItem, originalSrc:cameraItem, createdAt:null,
+                    location:null, favorite:nextFavorite, edited:false
+                };
+            }else{
+                cameraItem.favorite=nextFavorite;
+            }
+            persistCameraPhotos();
+        }
+    }else{
+        // Static album photo: Favorites is an additional collection.
+        setStaticPhotoMeta(item.src,{favorite:nextFavorite});
+    }
+
+    refreshFavorites();
+
+    // Only the Favorites album itself should lose an item when it is unfavorited.
+    // In Camera Roll / All Photos / the original album, the photo remains exactly where it was.
+    if(isFavList && !nextFavorite){
+        const oldIndex=currentPhotoIndex;
+        currentPhotoList=FAVORITES_PHOTOS;
+        if(!currentPhotoList.length){
+            closePhotoViewer();
+            showFavoritesAlbum();
+            return;
+        }
+        currentPhotoIndex=Math.min(oldIndex,currentPhotoList.length-1);
+    }
+
+    // Re-render only the viewer. Do not rebuild the gallery, so the current
+    // image cannot disappear while the favorite state is being toggled.
+    renderCurrentPhoto();
+}
+
+async function blobFromPhotoSource(src){
+    try{
+        const response=await fetch(src);
+        if(response.ok){
+            return await response.blob();
+        }
+    }catch(e){}
+
+    return await new Promise((resolve,reject)=>{
+        const img=new Image();
+        img.onload=()=>{
+            try{
+                const canvas=document.createElement("canvas");
+                canvas.width=img.naturalWidth || img.width;
+                canvas.height=img.naturalHeight || img.height;
+                const ctx=canvas.getContext("2d");
+                ctx.drawImage(img,0,0);
+                canvas.toBlob(blob=>{
+                    if(blob) resolve(blob);
+                    else reject(new Error("Could not create image blob"));
+                },"image/png",1);
+            }catch(error){
+                reject(error);
+            }
+        };
+        img.onerror=()=>reject(new Error("Could not load image"));
+        img.src=src;
+    });
+}
+
+async function shareCurrentPhoto(){
+    const item=currentPhotoItem();
+    if(!item || !item.src) return;
+
+    try{
+        const blob=await blobFromPhotoSource(item.src);
+        const mime=blob.type || "image/png";
+        const ext=mime.includes("jpeg") || mime.includes("jpg") ? "jpg" : "png";
+        const file=new File([blob],`sina-photo.${ext}`,{type:mime});
+
+        // Preferred path: real device/browser share sheet with the actual image.
+        if(navigator.share){
+            try{
+                if(!navigator.canShare || navigator.canShare({files:[file]})){
+                    await navigator.share({title:"Sina's Photos",files:[file]});
+                    return;
+                }
+            }catch(error){
+                if(error && error.name === "AbortError") return;
+            }
+        }
+
+        // Desktop / file:// fallback: copy the actual image to the clipboard.
+        if(navigator.clipboard && window.ClipboardItem){
+            try{
+                await navigator.clipboard.write([new ClipboardItem({[mime]:blob})]);
+                showShareSuccess("IMAGE COPIED ♡");
+                return;
+            }catch(error){}
+        }
+
+        // If neither API is available, show an explicit working fallback instead
+        // of silently doing nothing.
+        openShareFallback();
+    }catch(error){
+        openShareFallback();
+    }
+}
+
+function openShareFallback(){
+    const el=document.getElementById("shareFallback");
+    if(el){ el.classList.add("active"); el.setAttribute("aria-hidden","false"); }
+}
+
+function closeShareFallback(){
+    const el=document.getElementById("shareFallback");
+    if(el){ el.classList.remove("active"); el.setAttribute("aria-hidden","true"); }
+}
+
+async function copyCurrentPhoto(){
+    const item=currentPhotoItem();
+    if(!item || !item.src) return;
+    try{
+        const blob=await blobFromPhotoSource(item.src);
+        const mime=blob.type || "image/png";
+        if(!navigator.clipboard || !window.ClipboardItem) throw new Error("Clipboard image unavailable");
+        await navigator.clipboard.write([new ClipboardItem({[mime]:blob})]);
+        closeShareFallback();
+        showShareSuccess("IMAGE COPIED ♡");
+    }catch(error){
+        downloadCurrentPhoto();
+    }
+}
+
+function downloadCurrentPhoto(){
+    const item=currentPhotoItem();
+    if(item && item.src) downloadCameraPhoto(item.src);
+    closeShareFallback();
+}
+
+function showShareSuccess(message){
+    let toast=document.getElementById("shareSuccessToast");
+    if(!toast){
+        toast=document.createElement("div");
+        toast.id="shareSuccessToast";
+        toast.style.cssText="position:absolute;left:50%;bottom:92px;transform:translateX(-50%);z-index:150;padding:9px 12px;border:1px solid rgba(255,255,255,.8);border-radius:9px;background:rgba(36,85,106,.9);color:#fff;font-family:inherit;font-size:5px;white-space:nowrap;box-shadow:0 5px 18px rgba(36,85,106,.25);";
+        document.querySelector('.phone').appendChild(toast);
+    }
+    toast.textContent=message;
+    toast.style.display="block";
+    clearTimeout(window.__shareToastTimer);
+    window.__shareToastTimer=setTimeout(()=>toast.style.display="none",1800);
+}
+
+function downloadCameraPhoto(src){
+    const a=document.createElement("a"); a.href=src; a.download=`sina-photo-${Date.now()}.jpg`; document.body.appendChild(a); a.click(); a.remove();
+}
+
+function deleteCurrentPhoto(){
+    const item=currentPhotoItem();
+    if(!item) return;
+    if(!confirm("Bu fotoğraf galeriden silinsin mi?")) return;
+
+    if(currentPhotoList===cameraPhotos){
+        cameraPhotos.splice(currentPhotoIndex,1);
+        persistCameraPhotos();
+        if(!cameraPhotos.length){ closePhotoViewer(); showCameraRoll(); loadCameraGalleryThumb(); return; }
+        currentPhotoIndex=Math.min(currentPhotoIndex,cameraPhotos.length-1);
+        currentPhotoList=cameraPhotos;
+        renderCurrentPhoto();
+        loadCameraGalleryThumb();
+        return;
+    }
+
+    const src=item.src;
+    setStaticPhotoMeta(src,{hidden:true});
+    currentPhotoList=visiblePhotoList(currentPhotoList);
+    const nodes=[...document.querySelectorAll(".gallery-item")];
+    nodes.forEach(node=>{
+        const img=node.querySelector("img");
+        if(img && img.getAttribute("src")===src) node.remove();
+    });
+
+    if(!currentPhotoList.length){ closePhotoViewer(); return; }
+    currentPhotoIndex=Math.min(currentPhotoIndex,currentPhotoList.length-1);
+    renderCurrentPhoto();
+}
+
+function persistCameraPhotos(){ try{localStorage.setItem("sinaCameraPhotos",JSON.stringify(cameraPhotos));}catch(e){} }
+
+function changePhotoZoom(amount){
+    const main=document.getElementById("photoMain"), img=main?.querySelector("img");
+    if(!img) return;
+    let zoom=parseFloat(main.dataset.zoom||"1");
+    zoom=Math.max(1,Math.min(3,zoom+amount));
+    main.dataset.zoom=String(zoom); img.style.transform=`scale(${zoom})`; main.classList.toggle("zoomed",zoom>1);
+}
+
+function togglePhotoZoom(){
+    const main=document.getElementById("photoMain"), zoom=parseFloat(main.dataset.zoom||"1");
+    const target=zoom>1 ? 1 : 2;
+    main.dataset.zoom=String(target); const img=main.querySelector("img"); if(img) img.style.transform=`scale(${target})`; main.classList.toggle("zoomed",target>1);
+}
+
+function applyGalleryVisibility(){
+    document.querySelectorAll(".gallery-item img").forEach(img=>{
+        const src=img.getAttribute("src");
+        const hidden=isPhotoHidden(src);
+        const item=img.closest(".gallery-item");
+        if(item) item.style.display=hidden ? "none" : "";
+        if(item && isPhotoFavorite(src) && !item.querySelector(".static-favorite-badge")){
+            const badge=document.createElement("div");
+            badge.className="static-favorite-badge";
+            badge.textContent="♥";
+            badge.style.cssText="position:absolute;right:5px;top:5px;z-index:3;font-size:10px;color:#e98eb4;text-shadow:1px 1px rgba(255,255,255,.8);";
+            const wrap=img.parentElement; wrap.style.position="relative"; wrap.appendChild(badge);
+        }
+        if(item && !isPhotoFavorite(src)) item.querySelector(".static-favorite-badge")?.remove();
+    });
+}
+
+const galleryVisibilityObserver=new MutationObserver(()=>applyGalleryVisibility());
+window.addEventListener("DOMContentLoaded",()=>{
+    const content=document.getElementById("content");
+    if(content) galleryVisibilityObserver.observe(content,{childList:true,subtree:true});
+    applyGalleryVisibility();
+});
+
+/* =========================
+   NEXT PHOTO
+========================= */
+
+function nextPhoto() {
+
+    /*
+       Son fotoğraftaysak hiçbir şey yapma.
+       Başa dönmez.
+    */
+
+    if(
+        currentPhotoIndex >=
+        currentPhotoList.length - 1
+    ) {
+        return;
+    }
+
+    currentPhotoIndex++;
+
+    renderCurrentPhoto("next");
+
+}
+
+
+/* =========================
+   PREVIOUS PHOTO
+========================= */
+
+function previousPhoto() {
+
+    /*
+       İlk fotoğraftaysak hiçbir şey yapma.
+       Son fotoğrafa gitmez.
+    */
+
+    if(currentPhotoIndex <= 0) {
+        return;
+    }
+
+    currentPhotoIndex--;
+
+    renderCurrentPhoto("previous");
+
+}
+
+
+/* =========================
+   KEYBOARD NAVIGATION
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const viewer =
+            document.getElementById("photoViewer");
+
+        /*
+           Sadece photo viewer açıksa
+           klavye navigasyonu çalışır.
+        */
+
+        if(
+            !viewer.classList.contains("active")
+        ) {
+            return;
+        }
+
+
+        if(event.key === "ArrowRight") {
+
+            event.preventDefault();
+
+            nextPhoto();
+
+        }
+
+
+        if(event.key === "ArrowLeft") {
+
+            event.preventDefault();
+
+            previousPhoto();
+
+        }
+
+
+        if(event.key === "Escape") {
+
+            event.preventDefault();
+
+            closePhotoViewer();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   TOUCH START
+========================= */
+
+const photoMain =
+    document.getElementById("photoMain");
+
+photoMain.addEventListener(
+    "touchstart",
+    function(event) {
+
+        const touch =
+            event.changedTouches[0];
+
+        touchStartX =
+            touch.clientX;
+
+        touchStartY =
+            touch.clientY;
+
+    },
+    { passive: true }
+);
+
+
+/* =========================
+   TOUCH END
+========================= */
+
+photoMain.addEventListener(
+    "touchend",
+    function(event) {
+
+        const touch =
+            event.changedTouches[0];
+
+        touchEndX =
+            touch.clientX;
+
+        touchEndY =
+            touch.clientY;
+
+        handleSwipe();
+
+    },
+    { passive: true }
+);
+
+
+/* =========================
+   HANDLE SWIPE
+========================= */
+
+function handleSwipe() {
+
+    const deltaX =
+        touchEndX - touchStartX;
+
+    const deltaY =
+        touchEndY - touchStartY;
+
+    /*
+       Swipe'ın gerçekten yatay olduğundan
+       emin oluyoruz.
+    */
+
+    if(
+        Math.abs(deltaX) <
+        Math.abs(deltaY)
+    ) {
+        return;
+    }
+
+
+    /*
+       Çok küçük parmak hareketlerini
+       swipe olarak kabul etmiyoruz.
+    */
+
+    const minimumSwipeDistance = 45;
+
+    if(
+        Math.abs(deltaX) <
+        minimumSwipeDistance
+    ) {
+        return;
+    }
+
+
+    /*
+       Parmak sağa gittiyse önceki fotoğraf.
+       Parmak sola gittiyse sonraki fotoğraf.
+    */
+
+    if(deltaX > 0) {
+
+        previousPhoto();
+
+    } else {
+
+        nextPhoto();
+
+    }
+
+}
+
+
+/* =========================
+   CLOSE PHOTO
+========================= */
+
+function closePhotoViewer() {
+
+    document
+        .getElementById("photoViewer")
+        .classList
+        .remove("active");
+
+}
+
+
+/* =========================
+   CLOSE APP
+========================= */
+
+function closeApp() {
+
+    if(currentAppType === "camera") stopRealCamera();
+
+    closePhotoViewer();
+
+    const app = document.getElementById("app");
+
+    if(currentAppType === "gallery") {
+
+        app.classList.remove("gallery-transition-active");
+        app.classList.add("gallery-transition-closing");
+
+        setTimeout(() => {
+            app.style.display = "none";
+            app.classList.remove(
+                "gallery-transition",
+                "gallery-transition-closing"
+            );
+            currentAppType = null;
+        }, 230);
+
+        return;
+    }
+
+    if(currentAppType === "spanish") {
+
+        app.classList.remove("spanish-transition-active");
+        app.classList.add("spanish-transition-closing");
+
+        setTimeout(() => {
+            app.style.display = "none";
+            app.classList.remove(
+                "spanish-transition",
+                "spanish-transition-closing"
+            );
+            currentAppType = null;
+        }, 230);
+
+        return;
+    }
+
+    if(currentAppType === "music") {
+
+        app.classList.remove("spotify-transition-active");
+        app.classList.add("spotify-transition-closing");
+
+        setTimeout(() => {
+            app.style.display = "none";
+            app.classList.remove(
+                "spotify-app",
+                "spotify-transition",
+                "spotify-transition-closing"
+            );
+            currentAppType = null;
+        }, 230);
+
+        return;
+    }
+
+    app.classList.remove("spotify-app");
+    app.style.display = "none";
+    currentAppType = null;
+
+}
+
+
+
+/* =========================================================
+   SINA'S ROOM — DRESS-UP GAME
+   ========================================================= */
+
+const dressupState = {
+    top: null,
+    bottom: null,
+    jacket: null,
+    shoe: null,
+    accessory: null,
+    loadingTimer: null,
+    blinkTimer: null,
+    blinkCloseTimer: null,
+    loaded: false
+};
+
+const wardrobeItems = {
+    tops: [
+        {id:"top-pink-shirt-qs", name:"QUICKSILVER PINK SHIRT", kind:"top", asset:"oyun/layers/tops/pink-shirt-qs.png", demo:null},
+        {id:"top-green-shirt-np", name:"NUDE PROJECT GREEN SHIRT", kind: "top", asset:"oyun/layers/tops/green-shirt-np.png"},
+        {id:"top-none", name:"REMOVE", kind:"top", demo:null}
+    ],
+    bottoms: [
+        {id:"bottom-cream-baggy-pants", name:"CREAM BAGGY PANTS", kind:"bottom", asset:"oyun/layers/bottoms/cream-baggy-pants.png", demo:null},
+        {id:"bottom-dark", name:"DARK PANTS", kind:"bottom", demo:"bottom"},
+        {id:"bottom-none", name:"REMOVE", kind:"bottom", demo:null}
+    ],
+    jackets: [
+        {id:"jacket-brown", name:"BROWN JACKET", kind:"jacket", demo:"jacket"},
+        {id:"jacket-none", name:"REMOVE", kind:"jacket", demo:null}
+    ],
+    shoes: [
+        {id:"shoe-brown", name:"BROWN SHOES", kind:"shoe", demo:"shoe"},
+        {id:"shoe-none", name:"REMOVE", kind:"shoe", demo:null}
+    ],
+    accessories: [
+        {id:"acc-gold", name:"GOLD", kind:"accessory", demo:"accessory"},
+        {id:"acc-none", name:"REMOVE", kind:"accessory", demo:null}
+    ]
+};
+
+const wardrobeTabs = {
+    tops: [
+        ["tops","TOPS"],["bottoms","BOTTOMS"],["jackets","JACKETS"]
+    ],
+    bottoms: [
+        ["tops","TOPS"],["bottoms","BOTTOMS"],["jackets","JACKETS"]
+    ],
+    jackets: [
+        ["tops","TOPS"],["bottoms","BOTTOMS"],["jackets","JACKETS"]
+    ],
+    shoes: [
+        ["shoes","SHOES"],["accessories","ACCESSORIES"]
+    ],
+    accessories: [
+        ["shoes","SHOES"],["accessories","ACCESSORIES"]
+    ]
+};
+
+function stopBlinking(){
+    clearTimeout(dressupState.blinkTimer);
+    clearTimeout(dressupState.blinkCloseTimer);
+    dressupState.blinkTimer = null;
+    dressupState.blinkCloseTimer = null;
+
+    const base = document.getElementById("sinaBase");
+    const blink = document.getElementById("sinaBlink");
+    if(base) base.style.display = "block";
+    if(blink) blink.style.display = "none";
+}
+
+function scheduleBlink(){
+    clearTimeout(dressupState.blinkTimer);
+    if(!dressupState.loaded || !document.getElementById("dressupGame")?.classList.contains("active")) return;
+
+    // Natural-ish random interval: 3–10 seconds.
+    const delay = 3000 + Math.random() * 7000;
+    dressupState.blinkTimer = setTimeout(() => {
+        doBlink();
+    }, delay);
+}
+
+function doBlink(){
+    if(!dressupState.loaded || !document.getElementById("dressupGame")?.classList.contains("active")) return;
+
+    const base = document.getElementById("sinaBase");
+    const blink = document.getElementById("sinaBlink");
+    if(!base || !blink) return;
+
+    base.style.display = "none";
+    blink.style.display = "block";
+
+    // Keep the closed-eye frame on screen long enough to read as a blink.
+    dressupState.blinkCloseTimer = setTimeout(() => {
+        blink.style.display = "none";
+        base.style.display = "block";
+        scheduleBlink();
+    }, 280);
+}
+
+function openDressup(){
+    const game = document.getElementById("dressupGame");
+    game.classList.add("active");
+    document.getElementById("app").style.display = "none";
+
+    const loading = document.getElementById("gameLoading");
+    const room = document.getElementById("gameRoom");
+    const fill = document.querySelector(".loading-fill");
+
+    loading.style.display = "flex";
+    room.classList.remove("ready");
+    fill.style.animation = "none";
+    void fill.offsetWidth;
+    fill.style.animation = "gameLoad 3.35s steps(16,end) forwards";
+
+    clearTimeout(dressupState.loadingTimer);
+    dressupState.loadingTimer = setTimeout(() => {
+        loading.style.display = "none";
+        room.classList.add("ready");
+        dressupState.loaded = true;
+        stopBlinking();
+        scheduleBlink();
+    }, 3500);
+}
+
+function exitDressup(){
+    clearTimeout(dressupState.loadingTimer);
+    stopBlinking();
+    document.getElementById("gamePanel").classList.remove("open");
+    document.getElementById("dressupGame").classList.remove("active");
+    dressupState.loaded = false;
+}
+
+function openWardrobe(category){
+    if(!dressupState.loaded) return;
+    document.getElementById("gamePanelTitle").innerText =
+        category === "shoes" ? "SHOES & ACCESSORIES" : "WARDROBE";
+    renderWardrobe(category);
+    document.getElementById("gamePanel").classList.add("open");
+}
+
+function closeWardrobe(){
+    document.getElementById("gamePanel").classList.remove("open");
+}
+
+function findWardrobeItem(id){
+    if(!id) return null;
+    for(const category of Object.keys(wardrobeItems)){
+        const item = wardrobeItems[category].find(entry => entry.id === id);
+        if(item) return item;
+    }
+    return null;
+}
+
+function renderWardrobe(active){
+    const tabs = document.getElementById("gameTabs");
+    const grid = document.getElementById("itemGrid");
+
+    tabs.innerHTML = wardrobeTabs[active].map(([key,label]) =>
+        `<button class="game-tab ${key===active ? "active":""}"
+                 onclick="renderWardrobe('${key}')">${label}</button>`
+    ).join("");
+
+    const items = wardrobeItems[active] || [];
+    grid.innerHTML = items.map(item => {
+        let preview = "";
+
+        /* Real PNG preview for actual clothing assets. */
+        if(item.asset){
+            preview = `<img class="mini-asset"
+                           src="${item.asset}"
+                           alt="${item.name}">`;
+        } else {
+            if(item.demo === "top") preview = '<span class="mini-top"></span>';
+            if(item.demo === "bottom") preview = '<span class="mini-bottom"></span>';
+            if(item.demo === "jacket") preview = '<span class="mini-jacket"></span>';
+            if(item.demo === "shoe") preview = '<span class="mini-shoe"></span>';
+            if(item.demo === "accessory") preview = '<span class="mini-acc"></span>';
+        }
+
+        return `<button class="item-btn"
+                        onclick="selectDressItem('${item.kind}','${item.id}')">
+                    <div class="item-preview">${preview}</div>
+                    ${item.name}
+                </button>`;
+    }).join("");
+}
+
+function selectDressItem(kind, itemId){
+    const item = findWardrobeItem(itemId);
+
+    if(!item) return;
+
+    /* REMOVE clears the category; otherwise store the real item id. */
+    dressupState[kind] = itemId.endsWith("-none") ? null : itemId;
+
+    applyDemoClothes();
+}
+
+function applyDemoClothes(){
+    /* Hide every clothing layer first. */
+    const ids = [
+        "topAssetLayer",
+        "bottomAssetLayer",
+        "demoTop",
+        "demoBottom",
+        "demoJacket",
+        "demoShoeLeft",
+        "demoShoeRight",
+        "demoAccessory"
+    ];
+
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = "none";
+    });
+
+    /* Real top PNG (e.g. pink-shirt-qs.png). */
+    const topItem = findWardrobeItem(dressupState.top);
+    const topAsset = document.getElementById("topAssetLayer");
+
+    if(topItem?.asset && topAsset){
+        topAsset.src = topItem.asset;
+        topAsset.style.display = "block";
+    }
+
+    /* Real bottom PNG (e.g. cream-baggy-pants.png). */
+    const bottomItem = findWardrobeItem(dressupState.bottom);
+    const bottomAsset = document.getElementById("bottomAssetLayer");
+
+    if(bottomItem?.asset && bottomAsset){
+        bottomAsset.src = bottomItem.asset;
+        bottomAsset.style.display = "block";
+    }
+
+    /* Existing demo clothes remain supported. */
+    if(dressupState.top === "top")
+        document.getElementById("demoTop").style.display = "block";
+
+    if(dressupState.bottom === "bottom")
+        document.getElementById("demoBottom").style.display = "block";
+
+    if(dressupState.jacket === "jacket")
+        document.getElementById("demoJacket").style.display = "block";
+
+    if(dressupState.shoe === "shoe"){
+        document.getElementById("demoShoeLeft").style.display = "block";
+        document.getElementById("demoShoeRight").style.display = "block";
+    }
+
+    if(dressupState.accessory === "accessory")
+        document.getElementById("demoAccessory").style.display = "block";
+}
+
+/*
+   Bengi's Looks are deliberately hidden until the button is tapped.
+   These are starter/demo looks; later we can replace them with your
+   actual PNG outfit assets without touching the gallery.
+*/
+function openLooks(){
+    if(!dressupState.loaded) return;
+
+    const tabs = document.getElementById("gameTabs");
+    const grid = document.getElementById("itemGrid");
+
+    document.getElementById("gamePanelTitle").innerText = "BENGI'S LOOKS";
+    tabs.innerHTML = "";
+    grid.innerHTML = [
+        ["LOOK 01","top","bottom","shoe"],
+        ["LOOK 02","top","bottom","jacket"],
+        ["LOOK 03","top","bottom","accessory"]
+    ].map((look,i) => `
+        <button class="item-btn" onclick="applyLook(${i})">
+            <div class="item-preview">
+                <span class="mini-top"></span>
+                ${i!==2 ? '<span class="mini-bottom"></span>' : '<span class="mini-acc"></span>'}
+            </div>
+            ${look[0]}
+        </button>
+    `).join("");
+
+    document.getElementById("gamePanel").classList.add("open");
+}
+
+function applyLook(index){
+    if(index===0){
+        dressupState.top="top";
+        dressupState.bottom="bottom";
+        dressupState.jacket=null;
+        dressupState.shoe="shoe";
+        dressupState.accessory=null;
+    }
+    if(index===1){
+        dressupState.top="top";
+        dressupState.bottom="bottom";
+        dressupState.jacket="jacket";
+        dressupState.shoe=null;
+        dressupState.accessory=null;
+    }
+    if(index===2){
+        dressupState.top="top";
+        dressupState.bottom="bottom";
+        dressupState.jacket=null;
+        dressupState.shoe=null;
+        dressupState.accessory="accessory";
+    }
+    applyDemoClothes();
+    closeWardrobe();
+}
+
+/* =========================================================
+   END SINA'S ROOM
+   ========================================================= */
+
+/* =========================
+   8-BIT MUSIC
+========================= */
+
+let cameraStream = null;
+let cameraFacingMode = "user";
+let cameraPhotos = JSON.parse(localStorage.getItem("sinaCameraPhotos") || "[]");
+cameraPhotos = cameraPhotos.map(item => typeof item === "string"
+    ? { src: item, createdAt: null, location: null, favorite: false, edited: false }
+    : { favorite:false, edited:false, ...item }
+);
+
+async function startRealCamera() {
+    const video=document.getElementById("cameraVideo");
+    const permission=document.getElementById("cameraPermission");
+    const preview=document.getElementById("cameraPreview");
+    const status=document.getElementById("cameraStatus");
+    const rec=document.getElementById("cameraRec");
+    if(!video || !navigator.mediaDevices?.getUserMedia){ if(status) status.innerText="camera unavailable — use HTTPS or localhost"; return; }
+    if(cameraStream){ video.srcObject=cameraStream; if(permission) permission.style.display="none"; if(preview) preview.classList.add("camera-ready"); return; }
+    try {
+        cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:cameraFacingMode,width:{ideal:1280},height:{ideal:1280}},audio:false});
+        video.srcObject=cameraStream; await video.play();
+        if(permission) permission.style.display="none"; if(preview) preview.classList.add("camera-ready");
+        if(status) status.innerText="ready to capture ♡"; if(rec) rec.innerText="● LIVE";
+    } catch(error) {
+        console.error(error);
+        if(permission) permission.style.display="flex";
+        if(status) status.innerText=error.name==="NotAllowedError"?"camera permission denied":"couldn't open camera";
+        if(rec) rec.innerText="● OFF";
+    }
+}
+
+function stopRealCamera(){ if(cameraStream){ cameraStream.getTracks().forEach(track=>track.stop()); cameraStream=null; } }
+
+function takeCameraPhoto(){
+    const video=document.getElementById("cameraVideo"),
+          canvas=document.getElementById("cameraCanvas"),
+          flash=document.getElementById("cameraFlash"),
+          captured=document.getElementById("cameraCaptured"),
+          capturedPhoto=document.getElementById("cameraCapturedPhoto"),
+          status=document.getElementById("cameraStatus");
+
+    if(!video || !canvas || !cameraStream || video.readyState<2){
+        if(status) status.innerText="open camera first 📷";
+        return;
+    }
+
+    canvas.width=video.videoWidth||1280;
+    canvas.height=video.videoHeight||1280;
+
+    const ctx=canvas.getContext("2d");
+    ctx.save();
+    if(cameraFacingMode==="user"){
+        ctx.translate(canvas.width,0);
+        ctx.scale(-1,1);
+    }
+    ctx.drawImage(video,0,0,canvas.width,canvas.height);
+    ctx.restore();
+
+    const photo=canvas.toDataURL("image/jpeg",0.88);
+    const photoItem={
+        src: photo,
+        originalSrc: photo,
+        createdAt: new Date().toISOString(),
+        location: null,
+        favorite: false,
+        edited: false
+    };
+
+    cameraPhotos.unshift(photoItem);
+    cameraPhotos=cameraPhotos.slice(0,12);
+
+    try{localStorage.setItem("sinaCameraPhotos",JSON.stringify(cameraPhotos));}catch(e){}
+
+    updateCameraGalleryThumb(photo);
+
+    if(flash){
+        flash.classList.remove("active");
+        void flash.offsetWidth;
+        flash.classList.add("active");
+    }
+
+    if(status) status.innerText="CLICK! 📸";
+
+    if(capturedPhoto){
+        capturedPhoto.innerHTML=`<img src="${photo}" alt="Captured photo" style="width:100%;height:100%;object-fit:cover;border-radius:7px;">`;
+    }
+
+    /* Ask for location only when the browser allows it.
+       The photo is saved immediately; location is added when available. */
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(
+            position=>{
+                photoItem.location={
+                    latitude: Number(position.coords.latitude.toFixed(5)),
+                    longitude: Number(position.coords.longitude.toFixed(5)),
+                    accuracy: Math.round(position.coords.accuracy || 0)
+                };
+                try{localStorage.setItem("sinaCameraPhotos",JSON.stringify(cameraPhotos));}catch(e){}
+            },
+            ()=>{},
+            {enableHighAccuracy:false, timeout:5000, maximumAge:60000}
+        );
+    }
+
+    setTimeout(()=>{
+        if(captured) captured.classList.add("active");
+        if(status) status.innerText="photo saved ♡";
+    },220);
+}
+
+function updateCameraGalleryThumb(photo){
+    const thumb=document.getElementById("cameraGalleryThumb");
+    if(!thumb) return;
+    if(photo){
+        thumb.classList.add("has-photo");
+        thumb.style.setProperty("--camera-thumb", `url("${photo}")`);
+        thumb.style.backgroundImage=`url("${photo}")`;
+        thumb.style.backgroundSize="cover";
+        thumb.style.backgroundPosition="center";
+    }
+}
+
+function loadCameraGalleryThumb(){
+    const thumb=document.getElementById("cameraGalleryThumb");
+    if(!thumb) return;
+    const latest=cameraPhotos && cameraPhotos.length ? cameraPhotos[0] : null;
+    if(latest) updateCameraGalleryThumb(latest);
+}
+
+function viewCapturedPhoto(){ const captured=document.getElementById("cameraCaptured"); if(captured) captured.classList.remove("active"); const status=document.getElementById("cameraStatus"); if(status) status.innerText=cameraStream?"ready to capture ♡":"camera not started"; }
+
+function flipCamera(){ cameraFacingMode=cameraFacingMode==="user"?"environment":"user"; stopRealCamera(); const status=document.getElementById("cameraStatus"); if(status) status.innerText="switching camera ↻"; startRealCamera(); }
+
+function openCameraRollFromCamera(){ stopRealCamera(); openApp("gallery"); setTimeout(()=>showCameraRoll(),30); }
+
+function showCameraRoll(){
+    refreshCameraPhotosFromStorage();
+    const content=document.getElementById("content");
+    if(!content)return;
+
+    content.innerHTML=`
+        <div class="gallery-tabs">
+            <button class="gallery-tab" onclick="showGalleryHome()">ALBÜMLER</button>
+            <button class="gallery-tab active">CAMERA ROLL</button>
+        </div>
+
+        <div style="font-size:7px;color:#5f95a5;margin:8px 0 12px;">
+            ${cameraPhotos.length} FOTOĞRAF
+        </div>
+
+        <div class="gallery-grid">
+            ${cameraPhotos.length
+                ? cameraPhotos.map((item,i)=>`
+                    <div class="gallery-item" onclick="openPhoto(cameraPhotos, ${i})">
+                        <div class="gallery-image" style="position:relative;">
+                            <img src="${item.src}" alt="Camera photo">
+                            ${item.favorite ? '<div class="camera-roll-badge">♥</div>' : ''}
+                        </div>
+                    </div>
+                `).join("")
+                : `<div style="grid-column:1/-1;text-align:center;padding:35px 10px;color:#5f95a5;font-size:6px;">
+                    Henüz fotoğraf yok ♡<br><br>
+                    Kamerayı açıp ilk fotoğrafını çek!
+                </div>`
+            }
+        </div>`;
+}
+
+
+let spotifyAudio = null;
+let spotifyObjectUrl = null;
+
+function initSpotifyPlayer(){
+    spotifyAudio = document.getElementById('spotifyAudio');
+    if(!spotifyAudio) return;
+    spotifyAudio.addEventListener('loadedmetadata', updateSpotifyDuration);
+    spotifyAudio.addEventListener('timeupdate', updateSpotifyProgress);
+    spotifyAudio.addEventListener('ended', ()=>{
+        const btn=document.getElementById('spotifyPlay');
+        if(btn) btn.textContent='▶';
+    });
+    spotifyAudio.addEventListener('error', ()=>{
+        const status=document.getElementById('spotifyStatus');
+        if(status) status.textContent='ADD YOUR MP3 BELOW ♡';
+    });
+}
+
+function toggleSong(){
+    if(!spotifyAudio) initSpotifyPlayer();
+    if(!spotifyAudio) return;
+    if(spotifyAudio.paused){
+        spotifyAudio.play().then(()=>{
+            const btn=document.getElementById('spotifyPlay');
+            if(btn) btn.textContent='Ⅱ';
+            const status=document.getElementById('spotifyStatus');
+            if(status) status.textContent='NOW PLAYING ♡';
+        }).catch(()=>{
+            const status=document.getElementById('spotifyStatus');
+            if(status) status.textContent='ADD YOUR MP3 BELOW ♡';
+        });
+    }else{
+        spotifyAudio.pause();
+        const btn=document.getElementById('spotifyPlay');
+        if(btn) btn.textContent='▶';
+    }
+}
+
+function spotifyRestart(){
+    if(!spotifyAudio) initSpotifyPlayer();
+    if(!spotifyAudio) return;
+    spotifyAudio.currentTime=0;
+    spotifyAudio.play().then(()=>{
+        const btn=document.getElementById('spotifyPlay');
+        if(btn) btn.textContent='Ⅱ';
+    }).catch(()=>{});
+}
+
+function spotifyMute(){
+    if(!spotifyAudio) initSpotifyPlayer();
+    if(!spotifyAudio) return;
+    spotifyAudio.muted=!spotifyAudio.muted;
+    const status=document.getElementById('spotifyStatus');
+    if(status) status.textContent=spotifyAudio.muted ? 'MUTED' : 'NOW PLAYING ♡';
+}
+
+function updateSpotifyDuration(){
+    const el=document.getElementById('spotifyDuration');
+    if(el && Number.isFinite(spotifyAudio.duration)) el.textContent=formatSpotifyTime(spotifyAudio.duration);
+}
+
+function updateSpotifyProgress(){
+    if(!spotifyAudio) return;
+    const fill=document.getElementById('spotifyProgress');
+    const current=document.getElementById('spotifyCurrent');
+    if(fill && spotifyAudio.duration) fill.style.width=((spotifyAudio.currentTime/spotifyAudio.duration)*100)+'%';
+    if(current) current.textContent=formatSpotifyTime(spotifyAudio.currentTime);
+}
+
+function formatSpotifyTime(seconds){
+    if(!Number.isFinite(seconds)) return '0:00';
+    const m=Math.floor(seconds/60);
+    const s=Math.floor(seconds%60).toString().padStart(2,'0');
+    return `${m}:${s}`;
+}
+
+function loadSpotifyFile(file){
+    if(!file || !file.type.startsWith('audio/')) return;
+    if(spotifyObjectUrl) URL.revokeObjectURL(spotifyObjectUrl);
+    spotifyObjectUrl=URL.createObjectURL(file);
+    spotifyAudio=document.getElementById('spotifyAudio');
+    if(!spotifyAudio) return;
+    spotifyAudio.src=spotifyObjectUrl;
+    spotifyAudio.load();
+    const title=document.getElementById('spotifySongTitle');
+    if(title) title.textContent=file.name.replace(/\.[^.]+$/,'');
+    const status=document.getElementById('spotifyStatus');
+    if(status) status.textContent='SONG LOADED ♡';
+    spotifyAudio.play().then(()=>{
+        const btn=document.getElementById('spotifyPlay');
+        if(btn) btn.textContent='Ⅱ';
+    }).catch(()=>{});
+}</script>
+
+
+<!-- SHARE FALLBACK -->
+<div id="shareFallback" class="share-fallback" aria-hidden="true">
+  <div class="share-fallback-card">
+    <div class="share-fallback-title">SHARE PHOTO</div>
+    <div class="share-fallback-text">Your browser does not provide the native share sheet here.</div>
+    <div class="share-fallback-actions">
+      <button onclick="copyCurrentPhoto()">COPY IMAGE</button>
+      <button onclick="downloadCurrentPhoto()">DOWNLOAD</button>
+      <button onclick="closeShareFallback()">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.share-fallback{position:absolute;inset:0;z-index:140;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(36,85,106,.24);backdrop-filter:blur(5px)}
+.share-fallback.active{display:flex}
+.share-fallback-card{width:100%;max-width:285px;padding:18px;border:1px solid rgba(255,255,255,.8);border-radius:16px;background:rgba(244,255,255,.9);box-shadow:0 10px 35px rgba(45,151,176,.25);text-align:center;color:#24556a}
+.share-fallback-title{font-size:8px;margin-bottom:12px}
+.share-fallback-text{font-size:5px;line-height:1.8;margin-bottom:15px;color:#39778c}
+.share-fallback-actions{display:flex;flex-direction:column;gap:8px}
+.share-fallback-actions button{border:1px solid rgba(255,255,255,.8);border-radius:9px;padding:9px;background:rgba(255,255,255,.55);color:#39778c;font-family:inherit;font-size:5px;cursor:pointer;box-shadow:0 3px 0 rgba(55,147,171,.14)}
+.share-fallback-actions button:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(55,147,171,.14)}
+</style>
+
+</body>
+</html>
