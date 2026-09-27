@@ -3694,20 +3694,16 @@ function openApp(type) {
                         <button class="spotify-control" onclick="spotifyMute()">⌁</button>
                     </div>
                     <div class="spotify-status" id="spotifyStatus">OUR LITTLE PLAYLIST</div>
+                    <div id="ytPlayerHost" style="position:absolute;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none;"></div>
                 </div>
 
                 <div class="spotify-section-title">Recently played</div>
-                <div class="spotify-row" onclick="toggleSong()">
+                <div class="spotify-row">
                     <div class="spotify-row-cover"><img src="spotify-pixel.png" alt="Our Song"></div>
                     <div class="spotify-row-text"><div class="spotify-row-title">Our Song</div><div class="spotify-row-artist">Bengi ♡ Sina • Special playlist</div></div>
-                    <button class="spotify-row-play">▶</button>
                 </div>
-
-                <button class="spotify-add" onclick="document.getElementById('spotifyFileInput').click()">+ ADD SONG FROM DEVICE</button>
-                <input class="spotify-hidden-input" id="spotifyFileInput" type="file" accept="audio/*" onchange="loadSpotifyFile(this.files[0])">
-                <audio id="spotifyAudio" preload="metadata" src="our-song.mp3"></audio>
             </div>`;
-        setTimeout(initSpotifyPlayer, 0);
+        setTimeout(initYtSpotifyPlayer, 0);
     }
 
 
@@ -7139,73 +7135,99 @@ function showCameraRoll(){
 }
 
 
-let spotifyAudio = null;
-let spotifyObjectUrl = null;
+let ytPlayer = null;
+let ytReady = false;
+let ytApiRequested = false;
+let ytProgressInterval = null;
+const YT_VIDEO_ID = '7Ap6hjhX0CY';
 
-function initSpotifyPlayer(){
-    spotifyAudio = document.getElementById('spotifyAudio');
-    if(!spotifyAudio) return;
-    spotifyAudio.addEventListener('loadedmetadata', updateSpotifyDuration);
-    spotifyAudio.addEventListener('timeupdate', updateSpotifyProgress);
-    spotifyAudio.addEventListener('ended', ()=>{
-        const btn=document.getElementById('spotifyPlay');
-        if(btn) btn.textContent='▶';
-    });
-    spotifyAudio.addEventListener('error', ()=>{
-        const status=document.getElementById('spotifyStatus');
-        if(status) status.textContent='ADD YOUR MP3 BELOW ♡';
+function initYtSpotifyPlayer(){
+    if(ytProgressInterval){ clearInterval(ytProgressInterval); ytProgressInterval = null; }
+    ytReady = false;
+    if(ytPlayer && typeof ytPlayer.destroy === 'function'){
+        try{ ytPlayer.destroy(); }catch(e){}
+        ytPlayer = null;
+    }
+    if(!document.getElementById('ytPlayerHost')) return;
+    if(window.YT && window.YT.Player){
+        createYtPlayer();
+    } else {
+        window.onYouTubeIframeAPIReady = createYtPlayer;
+        if(!ytApiRequested){
+            ytApiRequested = true;
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            document.head.appendChild(tag);
+        }
+    }
+}
+
+function createYtPlayer(){
+    if(!document.getElementById('ytPlayerHost')) return;
+    ytPlayer = new YT.Player('ytPlayerHost', {
+        videoId: YT_VIDEO_ID,
+        playerVars: { autoplay:0, controls:0, disablekb:1, modestbranding:1, playsinline:1, rel:0, fs:0 },
+        events: { onReady: onYtPlayerReady, onStateChange: onYtStateChange }
     });
 }
 
+function onYtPlayerReady(){
+    ytReady = true;
+    const durEl = document.getElementById('spotifyDuration');
+    if(durEl) durEl.textContent = formatSpotifyTime(ytPlayer.getDuration());
+    if(ytProgressInterval) clearInterval(ytProgressInterval);
+    ytProgressInterval = setInterval(updateYtProgress, 500);
+}
+
+function onYtStateChange(e){
+    const btn = document.getElementById('spotifyPlay');
+    const status = document.getElementById('spotifyStatus');
+    if(e.data === YT.PlayerState.PLAYING){
+        if(btn) btn.textContent = 'Ⅱ';
+        if(status) status.textContent = 'NOW PLAYING ♡';
+    } else if(e.data === YT.PlayerState.ENDED){
+        if(btn) btn.textContent = '▶';
+        if(status) status.textContent = 'OUR LITTLE PLAYLIST';
+    } else if(e.data === YT.PlayerState.PAUSED){
+        if(btn) btn.textContent = '▶';
+    }
+}
+
 function toggleSong(){
-    if(!spotifyAudio) initSpotifyPlayer();
-    if(!spotifyAudio) return;
-    if(spotifyAudio.paused){
-        spotifyAudio.play().then(()=>{
-            const btn=document.getElementById('spotifyPlay');
-            if(btn) btn.textContent='Ⅱ';
-            const status=document.getElementById('spotifyStatus');
-            if(status) status.textContent='NOW PLAYING ♡';
-        }).catch(()=>{
-            const status=document.getElementById('spotifyStatus');
-            if(status) status.textContent='ADD YOUR MP3 BELOW ♡';
-        });
-    }else{
-        spotifyAudio.pause();
-        const btn=document.getElementById('spotifyPlay');
-        if(btn) btn.textContent='▶';
+    if(!ytPlayer || !ytReady){ initYtSpotifyPlayer(); return; }
+    if(ytPlayer.getPlayerState() === YT.PlayerState.PLAYING){
+        ytPlayer.pauseVideo();
+    } else {
+        ytPlayer.playVideo();
     }
 }
 
 function spotifyRestart(){
-    if(!spotifyAudio) initSpotifyPlayer();
-    if(!spotifyAudio) return;
-    spotifyAudio.currentTime=0;
-    spotifyAudio.play().then(()=>{
-        const btn=document.getElementById('spotifyPlay');
-        if(btn) btn.textContent='Ⅱ';
-    }).catch(()=>{});
+    if(!ytPlayer || !ytReady) return;
+    ytPlayer.seekTo(0, true);
+    ytPlayer.playVideo();
 }
 
 function spotifyMute(){
-    if(!spotifyAudio) initSpotifyPlayer();
-    if(!spotifyAudio) return;
-    spotifyAudio.muted=!spotifyAudio.muted;
-    const status=document.getElementById('spotifyStatus');
-    if(status) status.textContent=spotifyAudio.muted ? 'MUTED' : 'NOW PLAYING ♡';
+    if(!ytPlayer || !ytReady) return;
+    const status = document.getElementById('spotifyStatus');
+    if(ytPlayer.isMuted()){
+        ytPlayer.unMute();
+        if(status) status.textContent = 'NOW PLAYING ♡';
+    } else {
+        ytPlayer.mute();
+        if(status) status.textContent = 'MUTED';
+    }
 }
 
-function updateSpotifyDuration(){
-    const el=document.getElementById('spotifyDuration');
-    if(el && Number.isFinite(spotifyAudio.duration)) el.textContent=formatSpotifyTime(spotifyAudio.duration);
-}
-
-function updateSpotifyProgress(){
-    if(!spotifyAudio) return;
-    const fill=document.getElementById('spotifyProgress');
-    const current=document.getElementById('spotifyCurrent');
-    if(fill && spotifyAudio.duration) fill.style.width=((spotifyAudio.currentTime/spotifyAudio.duration)*100)+'%';
-    if(current) current.textContent=formatSpotifyTime(spotifyAudio.currentTime);
+function updateYtProgress(){
+    if(!ytPlayer || !ytReady) return;
+    const dur = ytPlayer.getDuration();
+    const cur = ytPlayer.getCurrentTime();
+    const fill = document.getElementById('spotifyProgress');
+    const curEl = document.getElementById('spotifyCurrent');
+    if(fill && dur) fill.style.width = ((cur/dur)*100)+'%';
+    if(curEl) curEl.textContent = formatSpotifyTime(cur);
 }
 
 function formatSpotifyTime(seconds){
@@ -7213,24 +7235,6 @@ function formatSpotifyTime(seconds){
     const m=Math.floor(seconds/60);
     const s=Math.floor(seconds%60).toString().padStart(2,'0');
     return `${m}:${s}`;
-}
-
-function loadSpotifyFile(file){
-    if(!file || !file.type.startsWith('audio/')) return;
-    if(spotifyObjectUrl) URL.revokeObjectURL(spotifyObjectUrl);
-    spotifyObjectUrl=URL.createObjectURL(file);
-    spotifyAudio=document.getElementById('spotifyAudio');
-    if(!spotifyAudio) return;
-    spotifyAudio.src=spotifyObjectUrl;
-    spotifyAudio.load();
-    const title=document.getElementById('spotifySongTitle');
-    if(title) title.textContent=file.name.replace(/\.[^.]+$/,'');
-    const status=document.getElementById('spotifyStatus');
-    if(status) status.textContent='SONG LOADED ♡';
-    spotifyAudio.play().then(()=>{
-        const btn=document.getElementById('spotifyPlay');
-        if(btn) btn.textContent='Ⅱ';
-    }).catch(()=>{});
 }</script>
 
 
